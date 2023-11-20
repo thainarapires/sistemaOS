@@ -74,10 +74,10 @@ public class Sobre extends JDialog {
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
-		lblNewLabel_3.setBounds(10, 240, 128, 103);
+		lblNewLabel_3.setBounds(12, 231, 128, 103);
 		getContentPane().add(lblNewLabel_3);
 		
-		JLabel lblThainara = new JLabel("Tech of Titans");
+		JLabel lblThainara = new JLabel("Thainara Pires");
 		lblThainara.setHorizontalAlignment(SwingConstants.CENTER);
 		lblThainara.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblThainara.setBounds(12, 307, 428, 14);
@@ -107,7 +107,7 @@ public class Sobre extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				 try {
 					 JOptionPane.showMessageDialog(null, "Voce será encaminhado para o repositório do projeto no GitHub.");
-					 URI uri = new URI("https://github.com/polianacaroline/assistenciatv");
+					 URI uri = new URI("https://github.com/thainarapires/sistemaos");
 					 Desktop.getDesktop().browse(uri);
 			        }catch(Exception erro){
 			            System.out.println(erro); 

@@ -369,7 +369,7 @@ public class Relatorios extends JDialog {
 	 */
 	private void relatorioEstoque() {
 
-		Document document = new Document();
+		Document document = new Document(PageSize.A3);
 
 		try {
 
@@ -379,50 +379,61 @@ public class Relatorios extends JDialog {
 
 			Date dataRelatorio = new Date();
 			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+
+			// Adiciona a data ao documento
 			document.add(new Paragraph(formatador.format(dataRelatorio)));
-			
+
 			document.add(new Paragraph("Produtos em Estoque:"));
 			document.add(new Paragraph(" "));
 
-			String readprod = "select codigo as código, nome as produto, valor as valor, date_format(dataval, '%d/%m/%Y') as validade, estoque, estoquemin as estóque_mínimo from produtos where estoque";
-			
+			String readprod = "select nome, codigo, codigobarras as modelo_da_tv, barcode, valor, estoque, estoquemin as estóque_mínimo, armazenagem as local from produtos where estoque";
+
 			try {
 
-			con = dao.conectar();
-			pst = con.prepareStatement(readprod);
-			rs = pst.executeQuery();
+				con = dao.conectar();
+				pst = con.prepareStatement(readprod);
+				rs = pst.executeQuery();
 
-			PdfPTable tabela1 = new PdfPTable(6);
+				PdfPTable tabela1 = new PdfPTable(8);
+				tabela1.setWidthPercentage(100);
 
-			PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
-			PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
-			PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
-			PdfPCell col300 = new PdfPCell(new Paragraph("validade: "));
-			PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
-			PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
-			
-			tabela1.addCell(col100);
-			tabela1.addCell(col200);
-			tabela1.addCell(col600);
-			tabela1.addCell(col300);
-			tabela1.addCell(col400);
-			tabela1.addCell(col500);
+				PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
+				PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
+				PdfPCell col300 = new PdfPCell(new Paragraph("modelo da tv"));
+				PdfPCell col700 = new PdfPCell(new Paragraph("código da placa: "));
+				PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
+				PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
+				PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
+				PdfPCell col430 = new PdfPCell(new Paragraph("local: "));
 
-			while (rs.next()) {
-				tabela1.addCell(rs.getString(1));
-				tabela1.addCell(rs.getString(2));
-				tabela1.addCell(rs.getString(3));
-				tabela1.addCell(rs.getString(4));
-				tabela1.addCell(rs.getString(5));
-				tabela1.addCell(rs.getString(6));
-			}
-			document.add(tabela1);
+				tabela1.addCell(col200);
+				tabela1.addCell(col100);
+				tabela1.addCell(col300);
+				tabela1.addCell(col700);
+				tabela1.addCell(col600);
+				tabela1.addCell(col400);
+				tabela1.addCell(col500);
+				tabela1.addCell(col430);
 
-			document.add(new Paragraph("Falta de estoque:"));
-			document.add(new Paragraph(" "));
-			String readClientes = "select codigo as código, nome as produto, date_format(dataval, '%d/%m/%Y') as validade, estoque, estoquemin as estóque_mínimo \r\n"
-					+ "from produtos where estoque < estoquemin";
-			
+
+				while (rs.next()) {
+					tabela1.addCell(rs.getString(1));
+					tabela1.addCell(rs.getString(2));
+					tabela1.addCell(rs.getString(3));
+					tabela1.addCell(rs.getString(4));
+					tabela1.addCell(rs.getString(5));
+					tabela1.addCell(rs.getString(6));
+					tabela1.addCell(rs.getString(7));
+					tabela1.addCell(rs.getString(8));
+
+
+				}
+				document.add(tabela1);
+
+				document.add(new Paragraph("Falta de estoque:"));
+				document.add(new Paragraph(" "));
+				String readClientes = "select codigo as código, nome as produto, estoque, estoquemin as estóque_mínimo \r\n"
+						+ "from produtos where estoque < estoquemin";
 
 				pst = con.prepareStatement(readClientes);
 
@@ -452,30 +463,6 @@ public class Relatorios extends JDialog {
 
 				document.add(tabela);
 
-				document.add(new Paragraph("Produtos vencidos ou fora de garantia:"));
-				document.add(new Paragraph(" "));
-
-				String read = "select codigo as código, nome as produto, date_format(dataval, '%d/%m/%Y') as validade\r\n"
-						+ "from produtos where dataval < dataent";
-
-				pst = con.prepareStatement(read);
-				rs = pst.executeQuery();
-
-				PdfPTable tabela2 = new PdfPTable(3);
-				PdfPCell col6 = new PdfPCell(new Paragraph("código: "));
-				PdfPCell col7 = new PdfPCell(new Paragraph("produto: "));
-				PdfPCell col8 = new PdfPCell(new Paragraph("validade: "));
-				tabela2.addCell(col6);
-				tabela2.addCell(col7);
-				tabela2.addCell(col8);
-
-				while (rs.next()) {
-					tabela2.addCell(rs.getString(1));
-					tabela2.addCell(rs.getString(2));
-					tabela2.addCell(rs.getString(3));
-				}
-				document.add(tabela2);
-
 				document.add(new Paragraph(" "));
 
 				document.add(new Paragraph("Patrimônio (Custo):"));
@@ -497,9 +484,6 @@ public class Relatorios extends JDialog {
 
 				document.add(tabela3);
 
-				
-
-				
 				con.close();
 			} catch (Exception e) {
 				System.out.println(e);
@@ -514,7 +498,8 @@ public class Relatorios extends JDialog {
 			Desktop.getDesktop().open(new File("estoque.pdf"));
 		} catch (Exception e) {
 			System.out.println(e);
-		
-		}}
+
+		}
+	}
 
 }

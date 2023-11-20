@@ -141,7 +141,7 @@ public class Fornecedores extends JDialog {
 		getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 
-		JLabel lblRazao = new JLabel("Razão Social*");
+		JLabel lblRazao = new JLabel("Razão Social:");
 		lblRazao.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblRazao.setBounds(20, 49, 136, 23);
 		getContentPane().add(lblRazao);
@@ -176,7 +176,7 @@ public class Fornecedores extends JDialog {
 		txtID.setBounds(631, 268, 116, 29);
 		getContentPane().add(txtID);
 
-		JLabel lblCnpj = new JLabel("CNPJ*");
+		JLabel lblCnpj = new JLabel("CNPJ:");
 		lblCnpj.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCnpj.setBounds(600, 49, 74, 23);
 		getContentPane().add(lblCnpj);
@@ -199,7 +199,7 @@ public class Fornecedores extends JDialog {
 		getContentPane().add(txtLogradouro);
 		txtLogradouro.setDocument(new Validador(35));
 
-		JLabel lblLogradouro = new JLabel("Logradouro*");
+		JLabel lblLogradouro = new JLabel("Logradouro");
 		lblLogradouro.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblLogradouro.setBounds(20, 114, 207, 23);
 		getContentPane().add(lblLogradouro);
@@ -233,7 +233,7 @@ public class Fornecedores extends JDialog {
 		lblFantasia.setBounds(352, 53, 204, 14);
 		getContentPane().add(lblFantasia);
 
-		JLabel lblTelefone = new JLabel("Telefone*");
+		JLabel lblTelefone = new JLabel("Telefone:");
 		lblTelefone.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTelefone.setBounds(20, 242, 135, 29);
 		getContentPane().add(lblTelefone);
@@ -285,7 +285,7 @@ public class Fornecedores extends JDialog {
 		getContentPane().add(txtCidade);
 		txtCidade.setDocument(new Validador(30));
 
-		JLabel lblCidade = new JLabel("Cidade*");
+		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCidade.setBounds(516, 179, 74, 23);
 		getContentPane().add(lblCidade);
@@ -302,7 +302,7 @@ public class Fornecedores extends JDialog {
 		cboUF.setBounds(733, 204, 74, 29);
 		getContentPane().add(cboUF);
 
-		JLabel lblCep = new JLabel("CEP*");
+		JLabel lblCep = new JLabel("CEP:");
 		lblCep.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCep.setBounds(516, 114, 207, 23);
 		getContentPane().add(lblCep);
@@ -350,7 +350,7 @@ public class Fornecedores extends JDialog {
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(50));
 
-		JLabel lblBairro = new JLabel("Bairro*");
+		JLabel lblBairro = new JLabel("Bairro");
 		lblBairro.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblBairro.setBounds(20, 179, 207, 23);
 		getContentPane().add(lblBairro);
@@ -407,7 +407,7 @@ public class Fornecedores extends JDialog {
 		getContentPane().add(txtEmail);
 		txtEmail.setDocument(new Validador(50));
 
-		JLabel lblEmail = new JLabel("Email*");
+		JLabel lblEmail = new JLabel("Email");
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblEmail.setBounds(389, 242, 135, 29);
 		getContentPane().add(lblEmail);
@@ -422,7 +422,7 @@ public class Fornecedores extends JDialog {
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setBorderPainted(false);
 		btnAdicionar.setIcon(new ImageIcon(Fornecedores.class.getResource("/img/ADICIONAR64X64.png")));
-		btnAdicionar.setBounds(383, 364, 68, 68);
+		btnAdicionar.setBounds(388, 364, 68, 68);
 		getContentPane().add(btnAdicionar);
 
 		JButton btnApagar = new JButton("");
@@ -435,7 +435,7 @@ public class Fornecedores extends JDialog {
 		btnApagar.setIcon(new ImageIcon(Fornecedores.class.getResource("/img/TRASH64X64.png")));
 		btnApagar.setContentAreaFilled(false);
 		btnApagar.setBorderPainted(false);
-		btnApagar.setBounds(461, 364, 68, 68);
+		btnApagar.setBounds(466, 364, 68, 68);
 		getContentPane().add(btnApagar);
 
 		JButton btnEditar = new JButton("");
@@ -448,7 +448,7 @@ public class Fornecedores extends JDialog {
 		btnEditar.setIcon(new ImageIcon(Fornecedores.class.getResource("/img/EDITAR64X64.png")));
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setBorderPainted(false);
-		btnEditar.setBounds(304, 364, 68, 68);
+		btnEditar.setBounds(309, 364, 68, 68);
 		getContentPane().add(btnEditar);
 
 		JButton btnNewButton = new JButton("");
@@ -513,36 +513,20 @@ public class Fornecedores extends JDialog {
 		if (txtRazao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Razão Social'. ");
 			txtRazao.requestFocus();
-		} else if (txtCNPJ.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'CNPJ'.");
-			txtCNPJ.requestFocus();
+
 		} else if (txtLogradouro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Logradouro'.");
 			txtLogradouro.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Número'.");
 			txtNumero.requestFocus();
-		} else if (txtCEP.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'CEP'.");
-			txtCEP.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Bairro'.");
 			txtBairro.requestFocus();
 		} else if (txtCidade.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Endereço'.");
 			txtCidade.requestFocus();
-		} else if (txtTel.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'Telefone'.");
-			txtTel.requestFocus();
-		} else if (txtCel.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'Celular'.");
-			txtCel.requestFocus();
-		} else if (txtEmail.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'Email'.");
-			txtEmail.requestFocus();
-		} else if (cboUF.equals(" ")) {
-			JOptionPane.showMessageDialog(null, "Preencha a UF");
-			cboUF.requestFocus();
+		
 
 		} else {
 			
@@ -611,36 +595,23 @@ public class Fornecedores extends JDialog {
 		if (txtRazao.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Razão Social'. ");
 			txtRazao.requestFocus();
-		} else if (txtCNPJ.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'CNPJ'.");
-			txtCNPJ.requestFocus();
 		} else if (txtLogradouro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Logradouro'.");
 			txtLogradouro.requestFocus();
 		} else if (txtNumero.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Número'.");
 			txtNumero.requestFocus();
-		} else if (txtCEP.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'CEP'.");
-			txtCEP.requestFocus();
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Bairro'.");
 			txtBairro.requestFocus();
 		} else if (txtCidade.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Cidade'.");
 			txtCidade.requestFocus();
-		} else if (txtTel.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'Telefone'.");
-			txtTel.requestFocus();
+		
 		} else if (txtCel.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo 'Celular'.");
 			txtCel.requestFocus();
-		} else if (txtEmail.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o campo 'Email'.");
-			txtEmail.requestFocus();
-		} else if (cboUF.equals(" ")) {
-			JOptionPane.showMessageDialog(null, "Preencha a UF");
-			cboUF.requestFocus();
+	
 
 		} else {
 			

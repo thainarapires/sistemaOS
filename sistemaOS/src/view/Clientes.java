@@ -159,7 +159,7 @@ public class Clientes extends JDialog {
 		txtNome.setBounds(20, 70, 416, 27);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
-		txtNome.setDocument(new Validador(50));
+		txtNome.setDocument(new Validador(150));
 
 		JLabel lblRg = new JLabel("RG*");
 		lblRg.setForeground(Color.BLACK);
@@ -225,7 +225,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(30));
 
-		JLabel lblTelCel = new JLabel("Telefone/Celular*");
+		JLabel lblTelCel = new JLabel("Telefone/Celular");
 		lblTelCel.setForeground(Color.BLACK);
 		lblTelCel.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTelCel.setBounds(20, 284, 191, 19);
@@ -342,7 +342,7 @@ public class Clientes extends JDialog {
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(20, 187, 223, 27);
 		getContentPane().add(txtEndereco);
-		txtEndereco.setDocument(new Validador(50));
+		txtEndereco.setDocument(new Validador(100));
 
 		JLabel lblBairro = new JLabel("Bairro*");
 		lblBairro.setForeground(Color.BLACK);
@@ -356,7 +356,7 @@ public class Clientes extends JDialog {
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(157, 246, 146, 27);
 		getContentPane().add(txtComplemento);
-		txtNome.setDocument(new Validador(20));
+		txtComplemento.setDocument(new Validador(20));
 
 		txtCEP = new JTextField();
 		txtCEP.setBackground(SystemColor.control);
@@ -397,7 +397,9 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtCidade);
 
 		cboUF = new JComboBox();
-		cboUF.setModel(new DefaultComboBoxModel(new String[] {"", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"}));
+		cboUF.setModel(new DefaultComboBoxModel(
+				new String[] { "", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
+						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
 		cboUF.setBounds(625, 248, 50, 27);
 		getContentPane().add(cboUF);
 
@@ -444,13 +446,6 @@ public class Clientes extends JDialog {
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o nome");
 			txtNome.requestFocus();
-		} else if (txtCPF.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o CPF");
-			txtCPF.requestFocus();
-		} else if (txtRG.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o RG");
-			txtRG.requestFocus();
-	
 		} else if (txtEndereco.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o endereço");
 			txtEndereco.requestFocus();
@@ -460,15 +455,6 @@ public class Clientes extends JDialog {
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o bairro");
 			txtBairro.requestFocus();
-		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o endereço");
-			txtCidade.requestFocus();
-		} else if (txtTelefone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o telefone");
-			txtTelefone.requestFocus();
-		} else if (txtEmail.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o email");
-			txtEmail.requestFocus();
 
 		} else {
 
@@ -502,7 +488,7 @@ public class Clientes extends JDialog {
 				con.close();
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
-			System.out.println(e1);
+				System.out.println(e1);
 
 			} catch (Exception e2) {
 				System.out.println(e2);
@@ -519,12 +505,7 @@ public class Clientes extends JDialog {
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o nome");
 			txtNome.requestFocus();
-		} else if (txtCPF.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o CPF");
-			txtCPF.requestFocus();
-		} else if (txtRG.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o RG");
-			txtRG.requestFocus();
+
 		} else if (txtEndereco.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o endereço");
 			txtEndereco.requestFocus();
@@ -534,15 +515,6 @@ public class Clientes extends JDialog {
 		} else if (txtBairro.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o bairro");
 			txtBairro.requestFocus();
-		} else if (txtCidade.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o endereço");
-			txtCidade.requestFocus();
-		} else if (txtTelefone.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o telefone");
-			txtTelefone.requestFocus();
-		} else if (txtEmail.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha o email");
-			txtEmail.requestFocus();
 
 		} else {
 

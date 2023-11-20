@@ -18,4 +18,6 @@
 			<item value="org.eclipse.wb/org.eclipse.wb.rcp"/>
 		</list>
 	</section>
+	<section name="EditorSelectionDialog">
+	</section>
 </section>
