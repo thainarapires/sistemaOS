@@ -34,13 +34,10 @@ Login de aplicativo para desktop (Windows, Linux ou MAC) de repositório de info
  ![php3](https://github.com/thainarapires/sistemaOS/assets/104094316/aeaec200-1787-41ca-8db0-19d6ea2b1737)
 
 
-``` CREATE TABLE alunos (ra int PRIMARY KEY AUTO_INCREMENT,nome varchar(30) NOT NULL,foto LONGBLOB NOT NULL);```
- 
-
 
 
 # Instalação do aplicativo
- 1. Em Releases faça o download do arquivo Login.jar
+ 1. Em Releases faça o download do arquivo SISTEMA.-.SP.Assistencia.TV.jar
 
  2. Execute e verifique no rodapé o ícone que representa o banco de dados conectado. Se estiver com erro (conforme indicado na figura) verifique o XAMPP e revise novamente os passos 1 a 4 da instalação do banco.
 
@@ -51,7 +48,7 @@ Login de aplicativo para desktop (Windows, Linux ou MAC) de repositório de info
     Login: ("admin")
     
     Senha: ("admin")
-
+OBS: SEM OS PARÊNTESES E AS ASPAS.
 
 # Sistema OS
 
@@ -63,23 +60,26 @@ Essa Tela acessa a tela principal, ultilizando seu usuário.
 
 
                 
-Tela Principal:
+Tela Principal: 
+![principal](https://github.com/thainarapires/sistemaOS/assets/104094316/842a56a5-dd67-47ff-a15d-ebff48e9412a)
 
-Essa Tela acessa os Usuário, Clientes, Fornecedores, Serviços, Relatório, Produtos.
 
-![TelaPrincipal](https://github.com/polianacaroline/assistenciatv/assets/104094484/99a8cb0c-52c6-446b-a5c3-b55d5231b598)
+Essa é a tela principal, dá acesso ao administrador as seguintes janelas: Usuários, Clientes, Fornecedores, Serviços, Relatórios, Produtos.
+O usuário com o perfil de "user" não tem acesso a algumas janelas.
 
 Tela Fornecedores:
 
 Essa Tela para adicionar cadastro dos Fornecedores.
+![fornecedores](https://github.com/thainarapires/sistemaOS/assets/104094316/0feb4168-7a33-4863-bd76-381f30ebc1e0)
 
-![TelaFornecedores ](https://github.com/polianacaroline/assistenciatv/assets/104094484/c48c8575-47a8-4e6a-83f1-b00f9b0a7f92)
 
 Tela Clientes:
 
 Essa Tela para adicionar cadastro dos Clientes.
 
-![TelaClientes](https://github.com/polianacaroline/assistenciatv/assets/104094484/bd285d6b-3009-4c92-aa83-ce8269bff729)
+![clientes](https://github.com/thainarapires/sistemaOS/assets/104094316/15bd6bb8-5b10-4695-a186-f219b73a17d7)
+
+
 
 Tela Usuário:
 
@@ -96,8 +96,7 @@ Essa Tela contem informações sobre licença MIT e link do GitHub.
 Tela Serviço:
 
 Essa Tela para adicionar cadastro de Ordem de Serviço.
-
-![TelaServicos](https://github.com/polianacaroline/assistenciatv/assets/104094484/4d8c6a77-2d28-4127-84ba-bd9cb1d82ad7)
+![servicos](https://github.com/thainarapires/sistemaOS/assets/104094316/2a2d8d6b-40e6-4ea8-80b6-53bd7cf8bcd2)
 
 Tela Relatório:
 
