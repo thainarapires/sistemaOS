@@ -104,7 +104,7 @@ public class Principal extends JFrame {
 		painel.setLayout(null);
 
 		lblNomeUsuario = new JLabel("usr");
-		lblNomeUsuario.setBounds(64, 24, 141, 14);
+		lblNomeUsuario.setBounds(64, 24, 116, 14);
 		painel.add(lblNomeUsuario);
 		lblNomeUsuario.setForeground(new Color(255, 255, 255));
 		lblNomeUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -112,7 +112,7 @@ public class Principal extends JFrame {
 		lblNivelAcesso = new JLabel("usr");
 		lblNivelAcesso.setForeground(Color.WHITE);
 		lblNivelAcesso.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNivelAcesso.setBounds(91, 52, 114, 14);
+		lblNivelAcesso.setBounds(91, 52, 86, 14);
 		painel.add(lblNivelAcesso);
 
 		JLabel lblNivel = new JLabel("Nível Acesso:");

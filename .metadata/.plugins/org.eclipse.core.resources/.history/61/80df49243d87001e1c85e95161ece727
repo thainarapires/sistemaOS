@@ -104,7 +104,7 @@ public class Principal extends JFrame {
 		painel.setLayout(null);
 
 		lblNomeUsuario = new JLabel("usr");
-		lblNomeUsuario.setBounds(64, 24, 141, 14);
+		lblNomeUsuario.setBounds(79, 25, 116, 14);
 		painel.add(lblNomeUsuario);
 		lblNomeUsuario.setForeground(new Color(255, 255, 255));
 		lblNomeUsuario.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -112,7 +112,7 @@ public class Principal extends JFrame {
 		lblNivelAcesso = new JLabel("usr");
 		lblNivelAcesso.setForeground(Color.WHITE);
 		lblNivelAcesso.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblNivelAcesso.setBounds(91, 52, 114, 14);
+		lblNivelAcesso.setBounds(117, 53, 86, 14);
 		painel.add(lblNivelAcesso);
 
 		JLabel lblNivel = new JLabel("Nível Acesso:");
@@ -328,7 +328,7 @@ public class Principal extends JFrame {
 				lblData.setFont(new Font("Arial", Font.BOLD, 18));
 
 		JLabel lblLogo = new JLabel("");
-		lblLogo.setBounds(375, 51, 409, 160);
+		lblLogo.setBounds(373, 51, 256, 160);
 		contentPane.add(lblLogo);
 		lblLogo.setIcon(new ImageIcon(Principal.class.getResource("/img/logo (1).png")));
 
@@ -343,7 +343,7 @@ public class Principal extends JFrame {
 		lblWelcome.setBackground(SystemColor.desktop);
 		lblWelcome.setForeground(SystemColor.desktop);
 		lblWelcome.setFont(new Font("Arial", Font.PLAIN, 36));
-		lblWelcome.setBounds(206, 279, 579, 46);
+		lblWelcome.setBounds(303, 279, 390, 46);
 		contentPane.add(lblWelcome);
 
 	}
