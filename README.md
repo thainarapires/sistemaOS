@@ -4,7 +4,7 @@ Login de aplicativo para desktop (Windows, Linux ou MAC) de repositório de info
 # Instruções para instalação e uso do aplicativo
 ## Pré requisitos 
 
- 1. Ter o Java versão 17 ou superior instalado. Testado com a versão openJDK 21 LTS que pode ser obtida no link indicado. Na instalação selecione todos os recursos conforme indicado na imagem.
+ 1. Ter o Java versão 17 ou superior instalado. Na instalação selecione todos os recursos conforme indicado na imagem.
 [Download openJDK](https://adoptium.net/).
 
 ![openjdk](https://github.com/polianacaroline/assistenciatv/assets/104094484/e2f2dfda-ade7-4dda-87e6-4ff3591707a5)
@@ -24,7 +24,8 @@ Login de aplicativo para desktop (Windows, Linux ou MAC) de repositório de info
 
  3. Crie um novo banco de dados de nome dbcarometro (sem usar acentuação) conforme indicado na imagem.
   
-![xampp3](https://github.com/polianacaroline/assistenciatv/assets/104094484/877b46ff-bb18-4e0c-b8e2-504ef6a763d1)
+(https://github.com/polianacaroline/assistenciatv/assets/104094484/877b46ff-bb18-4e0c-b8e2-504ef6a763d1)
+![phpmyadmin1](https://github.com/thainarapires/sistemaOS/assets/104094316/776fe9c9-a4a4-449d-8a01-8ae852da243c)
 
  4. Na aba SQL, copie e cole o código abaixo e execute. (Passos 1,2 e 3 indicados na imagem)
     
