@@ -141,7 +141,7 @@ public class Clientes extends JDialog {
 		lblNome.setBounds(20, 48, 203, 19);
 		getContentPane().add(lblNome);
 
-		JLabel lblCPF = new JLabel("CPF*");
+		JLabel lblCPF = new JLabel("CPF:");
 		lblCPF.setForeground(Color.BLACK);
 		lblCPF.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCPF.setBounds(20, 108, 49, 19);
@@ -161,13 +161,13 @@ public class Clientes extends JDialog {
 		txtNome.setColumns(10);
 		txtNome.setDocument(new Validador(150));
 
-		JLabel lblRg = new JLabel("RG*");
+		JLabel lblRg = new JLabel("RG:");
 		lblRg.setForeground(Color.BLACK);
 		lblRg.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblRg.setBounds(254, 108, 49, 19);
 		getContentPane().add(lblRg);
 
-		JLabel lblCnpj = new JLabel("CNPJ");
+		JLabel lblCnpj = new JLabel("CNPJ:");
 		lblCnpj.setForeground(Color.BLACK);
 		lblCnpj.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCnpj.setBounds(434, 108, 49, 19);
@@ -197,7 +197,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtCNPJ);
 		txtCNPJ.setDocument(new Validador(14));
 
-		JLabel lblNumero = new JLabel("Numero");
+		JLabel lblNumero = new JLabel("Número:");
 		lblNumero.setForeground(Color.BLACK);
 		lblNumero.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNumero.setBounds(20, 225, 83, 19);
@@ -211,7 +211,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtNumero);
 		txtNumero.setDocument(new Validador(10));
 
-		JLabel lblComplemento = new JLabel("Complemento");
+		JLabel lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.BLACK);
 		lblComplemento.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblComplemento.setBounds(157, 225, 108, 19);
@@ -225,7 +225,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(30));
 
-		JLabel lblTelCel = new JLabel("Telefone/Celular");
+		JLabel lblTelCel = new JLabel("Telefone/Celular:");
 		lblTelCel.setForeground(Color.BLACK);
 		lblTelCel.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTelCel.setBounds(20, 284, 191, 19);
@@ -239,7 +239,7 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtTelefone);
 		txtTelefone.setDocument(new Validador(12));
 
-		JLabel lblEmail = new JLabel("Email");
+		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(Color.BLACK);
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblEmail.setBounds(343, 285, 191, 19);
@@ -377,7 +377,7 @@ public class Clientes extends JDialog {
 		lblCEP.setBounds(313, 225, 108, 19);
 		getContentPane().add(lblCEP);
 
-		JLabel lblUF = new JLabel("UF");
+		JLabel lblUF = new JLabel("UF:");
 		lblUF.setForeground(Color.BLACK);
 		lblUF.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblUF.setBounds(625, 226, 32, 19);
