@@ -787,7 +787,7 @@ public class Servicos extends JDialog {
 						document.add(space);
 
 						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 20992924000129  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
+								" Pessoa Jurídica \n CNPJ: 0000000000  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Exemplo \n (11) 947485487        Email: exemplo@gmail.com");
 						desc.setAlignment(Element.ALIGN_LEFT);
 						document.add(desc);
 
@@ -862,7 +862,7 @@ public class Servicos extends JDialog {
 						String dataFormatada = data.format(formatter);
 
 						Paragraph assin = new Paragraph(
-								"\n \n \n  Aley Luciano Pires da Silva \n      Ass. Responsável                                                                     São Paulo, "
+								"\n \n \n Exemplo \n      Ass. Responsável                                                                     São Paulo, "
 										+ dataFormatada);
 						assin.setAlignment(Element.ALIGN_LEFT);
 						document.add(assin);
@@ -1032,7 +1032,7 @@ public class Servicos extends JDialog {
 						String dataFormatada = data.format(formatter);
 
 						Paragraph assin = new Paragraph(
-								"\n \n \n  Aley Luciano Pires da Silva \n      Ass. Responsável                                                                     São Paulo, "
+								"\n \n \n  Exemplo \n      Ass. Responsável                                                                     São Paulo, "
 										+ dataFormatada);
 						assin.setAlignment(Element.ALIGN_LEFT);
 						document.add(assin);
@@ -1124,7 +1124,7 @@ public class Servicos extends JDialog {
 						document.add(space);
 
 						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 20992924000129  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciatvi@gmail.com");
+								" Pessoa Jurídica \n CNPJ: 000000000  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: X \n (11) 00000000        Email: exemplo@gmail.com");
 						desc.setAlignment(Element.ALIGN_LEFT);
 						document.add(desc);
 
@@ -1205,7 +1205,7 @@ public class Servicos extends JDialog {
 						document.add(under);
 
 						Paragraph ap = new Paragraph(
-								"Aley Luciano P.S \nSP Assistência TV (Administrador) \n\n- Afirmo que recebi o meu aparelho em perfeitas condições de funcionamento e que o mesmo foi testado na minha presença, não tendo nada a reclamar contra. A Violação do Selo de Segurança, implicará na anulação da garantia",
+								"Exemplo (Administrador) \n\n- Afirmo que recebi o meu aparelho em perfeitas condições de funcionamento e que o mesmo foi testado na minha presença, não tendo nada a reclamar contra. A Violação do Selo de Segurança, implicará na anulação da garantia",
 								FontFactory.getFont(FontFactory.HELVETICA, 12));
 						ap.setAlignment(Element.ALIGN_CENTER);
 						document.add(ap);
