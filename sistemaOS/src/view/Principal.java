@@ -90,7 +90,7 @@ public class Principal extends JFrame {
 		});
 
 		setTitle("SP Assistencia Eletrodomésticos");
-		setBounds(100, 100, 1024, 764);
+		setBounds(100, 100, 1024, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -147,7 +147,7 @@ public class Principal extends JFrame {
 		btnUsuarios.setFont(new Font("Arial", Font.BOLD, 48));
 		btnUsuarios.setForeground(new Color(255, 255, 255));
 		btnUsuarios.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnUsuarios.setBounds(10, 475, 341, 77);
+		btnUsuarios.setBounds(10, 413, 341, 61);
 		panel.add(btnUsuarios);
 		btnUsuarios.setEnabled(false);
 		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -173,7 +173,7 @@ public class Principal extends JFrame {
 		btnServicos.setFont(new Font("Arial", Font.BOLD, 48));
 		btnServicos.setForeground(new Color(255, 255, 255));
 		btnServicos.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnServicos.setBounds(10, 123, 341, 77);
+		btnServicos.setBounds(10, 125, 341, 61);
 		panel.add(btnServicos);
 		btnServicos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -197,7 +197,7 @@ public class Principal extends JFrame {
 		btnClientes.setFont(new Font("Arial", Font.BOLD, 48));
 		btnClientes.setForeground(new Color(255, 255, 255));
 		btnClientes.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnClientes.setBounds(10, 35, 341, 77);
+		btnClientes.setBounds(10, 53, 341, 61);
 		panel.add(btnClientes);
 		btnClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -222,7 +222,7 @@ public class Principal extends JFrame {
 		btnRelatorios.setFont(new Font("Arial", Font.BOLD, 48));
 		btnRelatorios.setForeground(new Color(255, 255, 255));
 		btnRelatorios.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnRelatorios.setBounds(10, 211, 341, 77);
+		btnRelatorios.setBounds(10, 197, 341, 61);
 		panel.add(btnRelatorios);
 		btnRelatorios.setEnabled(false);
 		btnRelatorios.addActionListener(new ActionListener() {
@@ -247,7 +247,7 @@ public class Principal extends JFrame {
 		btnProd.setFont(new Font("Arial", Font.BOLD, 48));
 		btnProd.setForeground(new Color(255, 255, 255));
 		btnProd.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnProd.setBounds(10, 387, 341, 77);
+		btnProd.setBounds(10, 341, 341, 61);
 		panel.add(btnProd);
 		btnProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -273,7 +273,7 @@ public class Principal extends JFrame {
 		btnFornecedores.setFont(new Font("Arial", Font.BOLD, 48));
 		btnFornecedores.setForeground(new Color(255, 255, 255));
 		btnFornecedores.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		btnFornecedores.setBounds(10, 299, 341, 77);
+		btnFornecedores.setBounds(10, 269, 341, 61);
 		panel.add(btnFornecedores);
 		btnFornecedores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -290,7 +290,7 @@ public class Principal extends JFrame {
 		panel.add(panel_1);
 		
 				btnSair = new JButton("SAIR");
-				btnSair.setBounds(136, 583, 106, 31);
+				btnSair.setBounds(133, 536, 106, 31);
 				panel.add(btnSair);
 				btnSair.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -323,7 +323,7 @@ public class Principal extends JFrame {
 		panelRodape = new JPanel();
 		panelRodape.setForeground(SystemColor.textHighlight);
 		panelRodape.setBackground(new Color(0, 0, 128));
-		panelRodape.setBounds(205, 655, 803, 70);
+		panelRodape.setBounds(205, 591, 803, 70);
 		contentPane.add(panelRodape);
 		panelRodape.setLayout(null);
 		

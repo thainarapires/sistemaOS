@@ -113,7 +113,7 @@ public class Clientes extends JDialog {
 
 		scrollPaneClient = new JScrollPane();
 		scrollPaneClient.setVisible(false);
-		scrollPaneClient.setBounds(21, 181, 484, 70);
+		scrollPaneClient.setBounds(20, 102, 473, 70);
 		getContentPane().add(scrollPaneClient);
 
 		listClient = new JList();
@@ -127,26 +127,26 @@ public class Clientes extends JDialog {
 		scrollPaneClient.setViewportView(listClient);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(-14, -1, 1035, 76);
+		panel.setBounds(-14, -1, 1035, 33);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JLabel lblCadastrodeClientes = new JLabel("CADASTRO DE CLIENTES");
-		lblCadastrodeClientes.setBounds(334, 21, 412, 38);
+		lblCadastrodeClientes.setBounds(383, 0, 412, 38);
 		panel.add(lblCadastrodeClientes);
 		lblCadastrodeClientes.setForeground(new Color(0, 128, 255));
-		lblCadastrodeClientes.setFont(new Font("Arial", Font.BOLD, 28));
+		lblCadastrodeClientes.setFont(new Font("Arial", Font.BOLD, 20));
 
 		JLabel lblNome = new JLabel("Nome:");
 		lblNome.setForeground(new Color(0, 0, 0));
 		lblNome.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblNome.setBounds(20, 109, 203, 19);
+		lblNome.setBounds(20, 36, 473, 28);
 		getContentPane().add(lblNome);
 
 		JLabel lblCPF = new JLabel("CPF:");
 		lblCPF.setForeground(Color.BLACK);
 		lblCPF.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblCPF.setBounds(516, 95, 223, 39);
+		lblCPF.setBounds(516, 36, 223, 28);
 		getContentPane().add(lblCPF);
 
 		txtNome = new JTextField();
@@ -159,7 +159,7 @@ public class Clientes extends JDialog {
 				listarClientes();
 			}
 		});
-		txtNome.setBounds(20, 131, 484, 53);
+		txtNome.setBounds(20, 66, 473, 42);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 		txtNome.setDocument(new Validador(150));
@@ -167,13 +167,13 @@ public class Clientes extends JDialog {
 		JLabel lblRg = new JLabel("RG:");
 		lblRg.setForeground(Color.BLACK);
 		lblRg.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblRg.setBounds(751, 95, 49, 39);
+		lblRg.setBounds(814, 37, 181, 27);
 		getContentPane().add(lblRg);
 
 		JLabel lblCnpj = new JLabel("CNPJ:");
 		lblCnpj.setForeground(Color.BLACK);
 		lblCnpj.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblCnpj.setBounds(20, 188, 245, 39);
+		lblCnpj.setBounds(20, 119, 307, 28);
 		getContentPane().add(lblCnpj);
 
 		txtCPF = new JTextField();
@@ -181,7 +181,7 @@ public class Clientes extends JDialog {
 		txtCPF.setBackground(Color.LIGHT_GRAY);
 		txtCPF.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtCPF.setColumns(10);
-		txtCPF.setBounds(516, 131, 223, 53);
+		txtCPF.setBounds(516, 66, 283, 42);
 		getContentPane().add(txtCPF);
 		txtCPF.setDocument(new Validador(11));
 
@@ -190,7 +190,7 @@ public class Clientes extends JDialog {
 		txtRG.setBackground(Color.LIGHT_GRAY);
 		txtRG.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtRG.setColumns(10);
-		txtRG.setBounds(750, 131, 245, 53);
+		txtRG.setBounds(814, 66, 181, 42);
 		getContentPane().add(txtRG);
 		txtRG.setDocument(new Validador(9));
 
@@ -199,14 +199,14 @@ public class Clientes extends JDialog {
 		txtCNPJ.setBackground(Color.LIGHT_GRAY);
 		txtCNPJ.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtCNPJ.setColumns(10);
-		txtCNPJ.setBounds(20, 230, 306, 53);
+		txtCNPJ.setBounds(20, 146, 473, 42);
 		getContentPane().add(txtCNPJ);
 		txtCNPJ.setDocument(new Validador(14));
 
 		JLabel lblNumero = new JLabel("Número:");
 		lblNumero.setForeground(Color.BLACK);
 		lblNumero.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblNumero.setBounds(20, 385, 127, 39);
+		lblNumero.setBounds(20, 289, 127, 39);
 		getContentPane().add(lblNumero);
 
 		txtNumero = new JTextField();
@@ -214,14 +214,14 @@ public class Clientes extends JDialog {
 		txtNumero.setBackground(Color.LIGHT_GRAY);
 		txtNumero.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtNumero.setColumns(10);
-		txtNumero.setBounds(20, 423, 127, 53);
+		txtNumero.setBounds(20, 327, 127, 42);
 		getContentPane().add(txtNumero);
 		txtNumero.setDocument(new Validador(10));
 
 		JLabel lblComplemento = new JLabel("Complemento:");
 		lblComplemento.setForeground(Color.BLACK);
 		lblComplemento.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblComplemento.setBounds(162, 385, 326, 39);
+		lblComplemento.setBounds(157, 289, 336, 39);
 		getContentPane().add(lblComplemento);
 
 		txtBairro = new JTextField();
@@ -229,14 +229,14 @@ public class Clientes extends JDialog {
 		txtBairro.setBackground(Color.LIGHT_GRAY);
 		txtBairro.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtBairro.setColumns(10);
-		txtBairro.setBounds(478, 331, 517, 53);
+		txtBairro.setBounds(516, 236, 481, 42);
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(30));
 
 		JLabel lblTelCel = new JLabel("Telefone/Celular:");
 		lblTelCel.setForeground(Color.BLACK);
 		lblTelCel.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblTelCel.setBounds(20, 487, 191, 39);
+		lblTelCel.setBounds(18, 380, 473, 39);
 		getContentPane().add(lblTelCel);
 
 		txtTelefone = new JTextField();
@@ -244,14 +244,14 @@ public class Clientes extends JDialog {
 		txtTelefone.setBackground(Color.LIGHT_GRAY);
 		txtTelefone.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtTelefone.setColumns(10);
-		txtTelefone.setBounds(20, 526, 484, 53);
+		txtTelefone.setBounds(18, 419, 473, 42);
 		getContentPane().add(txtTelefone);
 		txtTelefone.setDocument(new Validador(12));
 
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(Color.BLACK);
 		lblEmail.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblEmail.setBounds(516, 487, 191, 39);
+		lblEmail.setBounds(516, 380, 191, 39);
 		getContentPane().add(lblEmail);
 
 		txtEmail = new JTextField();
@@ -259,14 +259,14 @@ public class Clientes extends JDialog {
 		txtEmail.setBackground(Color.LIGHT_GRAY);
 		txtEmail.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(514, 526, 481, 53);
+		txtEmail.setBounds(514, 419, 481, 42);
 		getContentPane().add(txtEmail);
 		txtEmail.setDocument(new Validador(50));
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
 		panel_1.setLayout(null);
-		panel_1.setBounds(0, 755, 1021, 42);
+		panel_1.setBounds(-24, 639, 1021, 42);
 		getContentPane().add(panel_1);
 
 		btnEditar = new JButton("EDITAR CLIENTE");
@@ -279,7 +279,7 @@ public class Clientes extends JDialog {
 		});
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setToolTipText("Editar cliente");
-		btnEditar.setBounds(255, 683, 286, 53);
+		btnEditar.setBounds(265, 554, 286, 53);
 		getContentPane().add(btnEditar);
 
 		btnAdicionar = new JButton("ADICIONAR CLIENTE");
@@ -293,7 +293,7 @@ public class Clientes extends JDialog {
 		});
 		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdicionar.setToolTipText("Adicionar cliente");
-		btnAdicionar.setBounds(255, 623, 286, 53);
+		btnAdicionar.setBounds(265, 497, 286, 53);
 		getContentPane().add(btnAdicionar);
 
 		btnExcluir = new JButton("EXCLUIR CLIENTE");
@@ -308,7 +308,7 @@ public class Clientes extends JDialog {
 		});
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setToolTipText("Excluir cliente");
-		btnExcluir.setBounds(584, 683, 398, 53);
+		btnExcluir.setBounds(561, 554, 378, 53);
 		getContentPane().add(btnExcluir);
 
 		JButton btnLimpar = new JButton("LIMPAR TODOS OS CAMPOS");
@@ -321,13 +321,13 @@ public class Clientes extends JDialog {
 			}
 		});
 		btnLimpar.setToolTipText("Limpar todos os campos");
-		btnLimpar.setBounds(584, 623, 398, 53);
+		btnLimpar.setBounds(561, 497, 378, 53);
 		getContentPane().add(btnLimpar);
 
 		JLabel lblID = new JLabel("ID do Cliente:");
 		lblID.setForeground(Color.BLACK);
 		lblID.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblID.setBounds(21, 625, 168, 19);
+		lblID.setBounds(20, 472, 168, 19);
 		getContentPane().add(lblID);
 
 		txtID = new JTextField();
@@ -335,15 +335,15 @@ public class Clientes extends JDialog {
 		txtID.setBackground(Color.LIGHT_GRAY);
 		txtID.setEditable(false);
 		txtID.setColumns(10);
-		txtID.setBounds(21, 655, 150, 53);
+		txtID.setBounds(20, 502, 150, 42);
 		getContentPane().add(txtID);
-		setBounds(100, 100, 1024, 826);
+		setBounds(100, 100, 1024, 700);
 		setLocationRelativeTo(null);
 
 		JLabel lblEndereco = new JLabel("Endereço:");
 		lblEndereco.setForeground(Color.BLACK);
 		lblEndereco.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblEndereco.setBounds(20, 294, 223, 38);
+		lblEndereco.setBounds(20, 202, 473, 35);
 		getContentPane().add(lblEndereco);
 
 		txtEndereco = new JTextField();
@@ -351,14 +351,14 @@ public class Clientes extends JDialog {
 		txtEndereco.setBackground(Color.LIGHT_GRAY);
 		txtEndereco.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(20, 331, 448, 53);
+		txtEndereco.setBounds(20, 236, 473, 42);
 		getContentPane().add(txtEndereco);
 		txtEndereco.setDocument(new Validador(100));
 
 		JLabel lblBairro = new JLabel("Bairro:");
 		lblBairro.setForeground(Color.BLACK);
 		lblBairro.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblBairro.setBounds(483, 294, 83, 39);
+		lblBairro.setBounds(516, 199, 481, 39);
 		getContentPane().add(lblBairro);
 
 		txtComplemento = new JTextField();
@@ -366,7 +366,7 @@ public class Clientes extends JDialog {
 		txtComplemento.setBackground(Color.LIGHT_GRAY);
 		txtComplemento.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtComplemento.setColumns(10);
-		txtComplemento.setBounds(162, 423, 326, 53);
+		txtComplemento.setBounds(157, 327, 336, 42);
 		getContentPane().add(txtComplemento);
 		txtComplemento.setDocument(new Validador(20));
 
@@ -380,26 +380,26 @@ public class Clientes extends JDialog {
 			}
 		});
 		txtCEP.setColumns(10);
-		txtCEP.setBounds(344, 230, 454, 53);
+		txtCEP.setBounds(516, 146, 283, 42);
 		getContentPane().add(txtCEP);
 		txtCEP.setDocument(new Validador(8));
 
 		JLabel lblCEP = new JLabel("CEP:");
 		lblCEP.setForeground(Color.BLACK);
 		lblCEP.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblCEP.setBounds(344, 187, 108, 39);
+		lblCEP.setBounds(516, 120, 283, 27);
 		getContentPane().add(lblCEP);
 
 		JLabel lblUF = new JLabel("UF:");
 		lblUF.setForeground(Color.BLACK);
 		lblUF.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblUF.setBounds(783, 385, 64, 39);
+		lblUF.setBounds(869, 289, 105, 39);
 		getContentPane().add(lblUF);
 
 		JLabel lblCidade = new JLabel("Cidade:");
 		lblCidade.setForeground(Color.BLACK);
 		lblCidade.setFont(new Font("Arial", Font.PLAIN, 24));
-		lblCidade.setBounds(498, 385, 258, 39);
+		lblCidade.setBounds(516, 289, 334, 39);
 		getContentPane().add(lblCidade);
 
 		txtCidade = new JTextField();
@@ -407,7 +407,7 @@ public class Clientes extends JDialog {
 		txtCidade.setBackground(Color.LIGHT_GRAY);
 		txtCidade.setBorder(new LineBorder(new Color(0, 0, 0)));
 		txtCidade.setColumns(10);
-		txtCidade.setBounds(499, 423, 258, 53);
+		txtCidade.setBounds(516, 327, 334, 42);
 		getContentPane().add(txtCidade);
 
 		cboUF = new JComboBox();
@@ -416,7 +416,7 @@ public class Clientes extends JDialog {
 		cboUF.setModel(new DefaultComboBoxModel(
 				new String[] { "", "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA",
 						"PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO" }));
-		cboUF.setBounds(783, 423, 83, 53);
+		cboUF.setBounds(869, 327, 105, 42);
 		getContentPane().add(cboUF);
 
 		JButton btnPesqCEP = new JButton("PESQ. CEP");
@@ -426,7 +426,7 @@ public class Clientes extends JDialog {
 				buscarCep();
 			}
 		});
-		btnPesqCEP.setBounds(813, 230, 185, 53);
+		btnPesqCEP.setBounds(814, 146, 185, 42);
 		getContentPane().add(btnPesqCEP);
 
 	}

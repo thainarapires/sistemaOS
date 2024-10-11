@@ -79,7 +79,7 @@ public class Login extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Login");
 		setResizable(false);
-		setBounds(100, 100, 1024, 768);
+		setBounds(100, 100, 1024, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(0, 0, 5, 0));
@@ -105,7 +105,7 @@ public class Login extends JFrame {
 		lblGradiente.setIcon(new ImageIcon(Login.class.getResource("/img/sois.png")));
 
 		JLabel lblLogin = new JLabel("LOGIN:");
-		lblLogin.setBounds(509, 194, 417, 32);
+		lblLogin.setBounds(510, 190, 417, 32);
 		contentPane.add(lblLogin);
 		lblLogin.setFont(new Font("Arial", Font.PLAIN, 28));
 
@@ -113,7 +113,7 @@ public class Login extends JFrame {
 		txtLogin.setFont(new Font("Arial", Font.PLAIN, 26));
 		txtLogin.setToolTipText("Coloque aqui o login que você cadastrou");
 		txtLogin.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		txtLogin.setBounds(509, 237, 417, 59);
+		txtLogin.setBounds(510, 233, 417, 59);
 		contentPane.add(txtLogin);
 		txtLogin.addMouseListener(new MouseAdapter() {
 			@Override
@@ -130,13 +130,13 @@ public class Login extends JFrame {
 		txtSenha = new JPasswordField();
 		txtSenha.setFont(new Font("Arial", Font.PLAIN, 26));
 		txtSenha.setToolTipText("Coloque sua senha do login");
-		txtSenha.setBounds(509, 389, 417, 59);
+		txtSenha.setBounds(510, 385, 417, 59);
 		contentPane.add(txtSenha);
 		txtSenha.setBackground(Color.WHITE);
 		txtSenha.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
 
 		JLabel lblSenha = new JLabel("SENHA: ");
-		lblSenha.setBounds(509, 346, 417, 32);
+		lblSenha.setBounds(510, 342, 417, 32);
 		contentPane.add(lblSenha);
 		lblSenha.setFont(new Font("Arial", Font.PLAIN, 28));
 
@@ -146,7 +146,7 @@ public class Login extends JFrame {
 		btnAcessar.setToolTipText("Login");
 		btnAcessar.setForeground(Color.WHITE);
 		btnAcessar.setBackground(new Color(30, 144, 255));
-		btnAcessar.setBounds(509, 513, 417, 95);
+		btnAcessar.setBounds(510, 509, 417, 95);
 		contentPane.add(btnAcessar);
 		btnAcessar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAcessar.setIcon(null);
@@ -161,7 +161,7 @@ public class Login extends JFrame {
 		JLabel lblNewLabel_1 = new JLabel("FAÇA SEU LOGIN");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 38));
-		lblNewLabel_1.setBounds(509, 50, 417, 79);
+		lblNewLabel_1.setBounds(510, 46, 417, 79);
 		contentPane.add(lblNewLabel_1);
 
 	}

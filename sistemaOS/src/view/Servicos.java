@@ -109,21 +109,21 @@ public class Servicos extends JDialog {
 		});
 		getContentPane().setBackground(Color.WHITE);
 		setModal(true);
-		setBounds(100, 100, 1024, 768);
+		setBounds(100, 100, 1024, 700);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(UIManager.getColor("EditorPane.disabledBackground"));
 		panel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED, new Color(255, 255, 255), new Color(160, 160, 160)), "DIGITE O NOME DO CLIENTE PARA CADASTRAR UMA OS", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.setBounds(644, 81, 342, 193);
+		panel.setBounds(655, 36, 342, 170);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		txtCliente = new JTextField();
 		txtCliente.setFont(new Font("Arial", Font.PLAIN, 18));
 		txtCliente.setBackground(SystemColor.control);
-		txtCliente.setBorder(new LineBorder(new Color(0, 0, 0)));
+		txtCliente.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
 		txtCliente.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -175,12 +175,12 @@ public class Servicos extends JDialog {
 								
 							}
 						});
-						btnBuscarCliente.setBounds(10, 111, 322, 69);
+						btnBuscarCliente.setBounds(10, 111, 322, 48);
 						panel.add(btnBuscarCliente);
 
 		JLabel lblOS = new JLabel("Número da OS:");
 		lblOS.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblOS.setBounds(16, 102, 202, 26);
+		lblOS.setBounds(16, 41, 202, 26);
 		getContentPane().add(lblOS);
 
 		txtOS = new JTextField();
@@ -188,7 +188,7 @@ public class Servicos extends JDialog {
 		txtOS.setBackground(SystemColor.controlShadow);
 		txtOS.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtOS.setEditable(false);
-		txtOS.setBounds(16, 133, 202, 46);
+		txtOS.setBounds(16, 72, 202, 46);
 		getContentPane().add(txtOS);
 		txtOS.setColumns(10);
 
@@ -198,12 +198,12 @@ public class Servicos extends JDialog {
 		txtData.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtData.setEditable(false);
 		txtData.setColumns(10);
-		txtData.setBounds(386, 134, 212, 48);
+		txtData.setBounds(386, 73, 212, 48);
 		getContentPane().add(txtData);
 
 		JLabel lblData = new JLabel("Data que foi feita:");
 		lblData.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblData.setBounds(386, 102, 248, 26);
+		lblData.setBounds(386, 41, 248, 26);
 		getContentPane().add(lblData);
 
 		txtEquipamento = new JTextField();
@@ -211,22 +211,22 @@ public class Servicos extends JDialog {
 		txtEquipamento.setBackground(Color.LIGHT_GRAY);
 		txtEquipamento.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtEquipamento.setColumns(10);
-		txtEquipamento.setBounds(20, 322, 202, 49);
+		txtEquipamento.setBounds(16, 215, 301, 49);
 		getContentPane().add(txtEquipamento);
 
 		JLabel lblEquipamento = new JLabel("Aparelho:");
 		lblEquipamento.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblEquipamento.setBounds(20, 283, 202, 41);
+		lblEquipamento.setBounds(16, 176, 301, 41);
 		getContentPane().add(lblEquipamento);
 
 		JLabel lblDefeito = new JLabel("Defeito:");
 		lblDefeito.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblDefeito.setBounds(408, 375, 105, 36);
+		lblDefeito.setBounds(16, 354, 970, 32);
 		getContentPane().add(lblDefeito);
 
 		JLabel lblValor = new JLabel("Valor:");
 		lblValor.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblValor.setBounds(21, 462, 105, 41);
+		lblValor.setBounds(17, 433, 105, 41);
 		getContentPane().add(lblValor);
 
 		txtValor = new JTextField();
@@ -246,7 +246,7 @@ public class Servicos extends JDialog {
 		txtValor.setBackground(Color.LIGHT_GRAY);
 		txtValor.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtValor.setColumns(10);
-		txtValor.setBounds(20, 501, 378, 49);
+		txtValor.setBounds(16, 472, 297, 49);
 		getContentPane().add(txtValor);
 
 		JButton btnBuscar = new JButton("Buscar");
@@ -259,13 +259,13 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnBuscar.setToolTipText("Buscar");
-		btnBuscar.setBounds(228, 136, 124, 35);
+		btnBuscar.setBounds(228, 75, 124, 35);
 		getContentPane().add(btnBuscar);
 
 		JButton btnAdd = new JButton("ADICIONAR NOVA OS");
 		btnAdd.setForeground(new Color(34, 139, 34));
 		btnAdd.setBackground(Color.LIGHT_GRAY);
-		btnAdd.setFont(new Font("Arial", Font.BOLD, 28));
+		btnAdd.setFont(new Font("Arial", Font.BOLD, 20));
 		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -273,12 +273,12 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnAdd.setToolTipText("Adicionar");
-		btnAdd.setBounds(55, 561, 359, 58);
+		btnAdd.setBounds(176, 539, 276, 46);
 		getContentPane().add(btnAdd);
 
 		JButton btnEditar = new JButton("EDITAR");
 		btnEditar.setBackground(Color.LIGHT_GRAY);
-		btnEditar.setFont(new Font("Arial", Font.BOLD, 28));
+		btnEditar.setFont(new Font("Arial", Font.BOLD, 20));
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -287,7 +287,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(424, 561, 214, 58);
+		btnEditar.setBounds(462, 539, 154, 46);
 		getContentPane().add(btnEditar);
 
 		JButton btnExcluir = new JButton("EXCLUIR ORDEM ");
@@ -301,7 +301,7 @@ public class Servicos extends JDialog {
 				excluirOS();
 			}
 		});
-		btnExcluir.setBounds(538, 628, 226, 48);
+		btnExcluir.setBounds(576, 594, 236, 48);
 		getContentPane().add(btnExcluir);
 
 		txtDefeito = new JTextField();
@@ -309,7 +309,7 @@ public class Servicos extends JDialog {
 		txtDefeito.setBackground(Color.LIGHT_GRAY);
 		txtDefeito.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtDefeito.setColumns(10);
-		txtDefeito.setBounds(408, 412, 578, 49);
+		txtDefeito.setBounds(16, 387, 970, 49);
 		getContentPane().add(txtDefeito);
 
 		JButton btnLimpar = new JButton("LIMPAR TODOS OS CAMPOS");
@@ -323,12 +323,12 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnLimpar.setToolTipText("Limpar todos o campos");
-		btnLimpar.setBounds(139, 628, 389, 48);
+		btnLimpar.setBounds(177, 594, 389, 48);
 		getContentPane().add(btnLimpar);
 
 		JButton btnImprimir = new JButton("IMPRIMIR");
 		btnImprimir.setBackground(Color.LIGHT_GRAY);
-		btnImprimir.setFont(new Font("Arial", Font.BOLD, 28));
+		btnImprimir.setFont(new Font("Arial", Font.BOLD, 20));
 		btnImprimir.setToolTipText("Imprimir esta OS");
 		btnImprimir.setIcon(new ImageIcon(Servicos.class.getResource("/img/printer.png")));
 		btnImprimir.addActionListener(new ActionListener() {
@@ -337,7 +337,7 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnImprimir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnImprimir.setBounds(663, 561, 226, 58);
+		btnImprimir.setBounds(626, 539, 186, 46);
 		getContentPane().add(btnImprimir);
 
 		txtMarca = new JTextField();
@@ -345,12 +345,12 @@ public class Servicos extends JDialog {
 		txtMarca.setBackground(Color.LIGHT_GRAY);
 		txtMarca.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtMarca.setColumns(10);
-		txtMarca.setBounds(232, 322, 320, 49);
+		txtMarca.setBounds(327, 215, 659, 49);
 		getContentPane().add(txtMarca);
 
 		JLabel lblMarca = new JLabel("Marca:");
 		lblMarca.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblMarca.setBounds(232, 286, 278, 34);
+		lblMarca.setBounds(327, 179, 318, 34);
 		getContentPane().add(lblMarca);
 
 		txtModelo = new JTextField();
@@ -358,12 +358,12 @@ public class Servicos extends JDialog {
 		txtModelo.setBackground(Color.LIGHT_GRAY);
 		txtModelo.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtModelo.setColumns(10);
-		txtModelo.setBounds(562, 322, 424, 49);
+		txtModelo.setBounds(16, 302, 301, 49);
 		getContentPane().add(txtModelo);
 
 		JLabel lblModelo = new JLabel("Modelo:");
 		lblModelo.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblModelo.setBounds(562, 285, 105, 35);
+		lblModelo.setBounds(16, 265, 105, 35);
 		getContentPane().add(lblModelo);
 
 		txtSerie = new JTextField();
@@ -371,12 +371,12 @@ public class Servicos extends JDialog {
 		txtSerie.setBackground(Color.LIGHT_GRAY);
 		txtSerie.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtSerie.setColumns(10);
-		txtSerie.setBounds(20, 412, 378, 49);
+		txtSerie.setBounds(327, 302, 659, 49);
 		getContentPane().add(txtSerie);
 
 		JLabel lblSerie = new JLabel("Número de série:");
 		lblSerie.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblSerie.setBounds(20, 375, 359, 35);
+		lblSerie.setBounds(327, 265, 659, 35);
 		getContentPane().add(lblSerie);
 
 		JButton btnNewButton = new JButton("Ver todas as OS");
@@ -388,12 +388,12 @@ public class Servicos extends JDialog {
 				exibirTodasOS();
 			}
 		});
-		btnNewButton.setBounds(16, 190, 202, 58);
+		btnNewButton.setBounds(16, 120, 202, 58);
 		getContentPane().add(btnNewButton);
 
 		JLabel lblMaterial = new JLabel("Material utilizado:");
 		lblMaterial.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblMaterial.setBounds(408, 463, 359, 39);
+		lblMaterial.setBounds(323, 434, 659, 39);
 		getContentPane().add(lblMaterial);
 
 		txtMaterial = new JTextField();
@@ -401,24 +401,19 @@ public class Servicos extends JDialog {
 		txtMaterial.setColumns(10);
 		txtMaterial.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtMaterial.setBackground(Color.LIGHT_GRAY);
-		txtMaterial.setBounds(408, 501, 578, 49);
+		txtMaterial.setBounds(323, 472, 659, 49);
 		getContentPane().add(txtMaterial);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(SystemColor.textHighlight);
-		panel_1.setBounds(-16, 687, 1024, 58);
-		getContentPane().add(panel_1);
 		
 		JPanel panel_1_1 = new JPanel();
 		panel_1_1.setBackground(Color.LIGHT_GRAY);
-		panel_1_1.setBounds(0, 0, 1024, 58);
+		panel_1_1.setBounds(0, 0, 1024, 33);
 		getContentPane().add(panel_1_1);
 		panel_1_1.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("CADASTRO DE ORDEM DE SERVIÇO");
 		lblNewLabel.setForeground(SystemColor.textHighlight);
-		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 20));
-		lblNewLabel.setBounds(319, 18, 406, 29);
+		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
+		lblNewLabel.setBounds(331, 4, 406, 29);
 		panel_1_1.add(lblNewLabel);
 
 	}
