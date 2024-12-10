@@ -223,7 +223,7 @@ public class Login extends JFrame {
 						this.dispose();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos");
+					JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos!");
 					txtLogin.setText(null);
 					txtSenha.setText(null);
 					txtLogin.requestFocus(true);
