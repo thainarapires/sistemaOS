@@ -485,7 +485,7 @@ public class Servicos extends JDialog {
 	 * METODO APARECER TODAS AS ORDENS DE SERVICO EM ABERTO QUANDO CLICAR O BOTAO
 	 */
 	private void exibirTodasOS() {
-		String query = "SELECT * FROM servicos INNER JOIN clientes ON servicos.idcli = clientes.idcli ORDER BY dataOS ASC";
+		String query = "SELECT * FROM servicos INNER JOIN clientes ON servicos.idcli = clientes.idcli ORDER BY dataOS DESC";
 		try {
 			con = dao.conectar();
 			pst = con.prepareStatement(query);
@@ -892,7 +892,7 @@ public class Servicos extends JDialog {
 						space.setAlignment(Element.ALIGN_MIDDLE);
 						document.add(space);
 						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 20992924000129  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
+								" Pessoa Jurídica \n CNPJ: 48.554.688/0001-88  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
 						desc.setAlignment(Element.ALIGN_LEFT);
 						document.add(desc);
 
@@ -1229,7 +1229,7 @@ public class Servicos extends JDialog {
 						document.add(space);
 
 						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 20992924000129  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
+								" Pessoa Jurídica \n CNPJ: 48.554.688/0001-88  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
 						desc.setAlignment(Element.ALIGN_LEFT);
 						document.add(desc);
 
