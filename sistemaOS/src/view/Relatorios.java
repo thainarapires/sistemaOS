@@ -292,214 +292,213 @@ public class Relatorios extends JDialog {
 	 */
 	private void relatorioServicos() {
 
-		Document document = new Document();
+	    Document document = new Document();
 
-		document.setPageSize(PageSize.A4.rotate());
+	    document.setPageSize(PageSize.A4.rotate());
 
-		try {
+	    try {
 
-			PdfWriter.getInstance(document, new FileOutputStream("servicos.pdf"));
+	        PdfWriter.getInstance(document, new FileOutputStream("servicos.pdf"));
 
-			document.open();
+	        document.open();
 
-			Date dataRelatorio = new Date();
-			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
-			document.add(new Paragraph(formatador.format(dataRelatorio)));
+	        Date dataRelatorio = new Date();
+	        DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+	        document.add(new Paragraph(formatador.format(dataRelatorio)));
 
-			document.add(new Paragraph("SERVIÇOS:"));
-			document.add(new Paragraph(" "));
+	        document.add(new Paragraph("SERVIÇOS:"));
+	        document.add(new Paragraph(" "));
 
-			String readServicos = "select os, nome, dataOS, equipamento, defeito, valor from servicos inner join clientes on servicos.idcli = clientes.idcli order by os";
-			try {
+	        String readServicos = "select os, nome, dataOS, equipamento, defeito, valor from servicos inner join clientes on servicos.idcli = clientes.idcli order by os";
+	        try {
 
-				con = dao.conectar();
+	            con = dao.conectar();
 
-				pst = con.prepareStatement(readServicos);
+	            pst = con.prepareStatement(readServicos);
 
-				rs = pst.executeQuery();
+	            rs = pst.executeQuery();
 
-				PdfPTable tabela = new PdfPTable(6);
+	            PdfPTable tabela = new PdfPTable(6);
 
-				PdfPCell col1 = new PdfPCell(new Paragraph("OS: "));
-				PdfPCell col2 = new PdfPCell(new Paragraph("Cliente: "));
-				PdfPCell col3 = new PdfPCell(new Paragraph("Data da OS: "));
-				PdfPCell col4 = new PdfPCell(new Paragraph("Equipamento: "));
-				PdfPCell col5 = new PdfPCell(new Paragraph("Defeito: "));
-				PdfPCell col6 = new PdfPCell(new Paragraph("Valor: "));
+	            PdfPCell col1 = new PdfPCell(new Paragraph("OS: "));
+	            PdfPCell col2 = new PdfPCell(new Paragraph("Cliente: "));
+	            PdfPCell col3 = new PdfPCell(new Paragraph("Data da OS: "));
+	            PdfPCell col4 = new PdfPCell(new Paragraph("Equipamento: "));
+	            PdfPCell col5 = new PdfPCell(new Paragraph("Defeito: "));
+	            PdfPCell col6 = new PdfPCell(new Paragraph("Valor: "));
 
-				tabela.addCell(col1);
-				tabela.addCell(col2);
-				tabela.addCell(col3);
-				tabela.addCell(col4);
-				tabela.addCell(col5);
-				tabela.addCell(col6);
-				;
-				while (rs.next()) {
+	            tabela.addCell(col1);
+	            tabela.addCell(col2);
+	            tabela.addCell(col3);
+	            tabela.addCell(col4);
+	            tabela.addCell(col5);
+	            tabela.addCell(col6);
 
-					tabela.addCell(rs.getString(1));
-					tabela.addCell(rs.getString(2));
-					tabela.addCell(rs.getString(3));
-					tabela.addCell(rs.getString(4));
-					tabela.addCell(rs.getString(5));
-					tabela.addCell(rs.getString(6));
+	            // Acumulando o total de orçamentos
+	            double totalOrcamentos = 0;
 
-				}
+	            while (rs.next()) {
+	                tabela.addCell(rs.getString(1));
+	                tabela.addCell(rs.getString(2));
+	                tabela.addCell(rs.getString(3));
+	                tabela.addCell(rs.getString(4));
+	                tabela.addCell(rs.getString(5));
+	                tabela.addCell(rs.getString(6));
 
-				document.add(tabela);
+	                // Acumula o valor dos serviços
+	                totalOrcamentos += rs.getDouble(6);
+	            }
 
-				con.close();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	            document.add(tabela);
 
-		document.close();
+	            // Adiciona o total de orçamentos
+	            document.add(new Paragraph(" "));
+	            document.add(new Paragraph("Total de Orçamentos: R$ " + String.format("%.2f", totalOrcamentos)));
 
-		try {
-			Desktop.getDesktop().open(new File("servicos.pdf"));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	            con.close();
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
+
+	    document.close();
+
+	    try {
+	        Desktop.getDesktop().open(new File("servicos.pdf"));
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 	}
 
-	/**
-	 * Metodo responsavel por: imprimir o relatorio de estoque.
-	 */
 	private void relatorioEstoque() {
 
-		Document document = new Document(PageSize.A3);
+	    Document document = new Document(PageSize.A3);
 
-		try {
+	    try {
 
-			PdfWriter.getInstance(document, new FileOutputStream("estoque.pdf"));
+	        PdfWriter.getInstance(document, new FileOutputStream("estoque.pdf"));
 
-			document.open();
+	        document.open();
 
-			Date dataRelatorio = new Date();
-			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+	        Date dataRelatorio = new Date();
+	        DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 
-			// Adiciona a data ao documento
-			document.add(new Paragraph(formatador.format(dataRelatorio)));
+	        // Adiciona a data ao documento
+	        document.add(new Paragraph(formatador.format(dataRelatorio)));
 
-			document.add(new Paragraph("Produtos em Estoque:"));
-			document.add(new Paragraph(" "));
+	        document.add(new Paragraph("Produtos em Estoque:"));
+	        document.add(new Paragraph(" "));
 
-			String readprod = "select nome, codigo, codigobarras as modelo_da_tv, barcode, valor, estoque, estoquemin as estóque_mínimo, armazenagem as local from produtos where estoque";
+	        String readprod = "select nome, codigo, codigobarras as modelo_da_tv, barcode, valor, estoque, estoquemin as estóque_mínimo, armazenagem as local from produtos where estoque";
 
-			try {
+	        try {
 
-				con = dao.conectar();
-				pst = con.prepareStatement(readprod);
-				rs = pst.executeQuery();
+	            con = dao.conectar();
+	            pst = con.prepareStatement(readprod);
+	            rs = pst.executeQuery();
 
-				PdfPTable tabela1 = new PdfPTable(8);
-				tabela1.setWidthPercentage(100);
+	            PdfPTable tabela1 = new PdfPTable(8);
+	            tabela1.setWidthPercentage(100);
 
-				PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
-				PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
-				PdfPCell col300 = new PdfPCell(new Paragraph("modelo da tv"));
-				PdfPCell col700 = new PdfPCell(new Paragraph("código da placa: "));
-				PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
-				PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
-				PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
-				PdfPCell col430 = new PdfPCell(new Paragraph("local: "));
+	            PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
+	            PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
+	            PdfPCell col300 = new PdfPCell(new Paragraph("modelo da tv"));
+	            PdfPCell col700 = new PdfPCell(new Paragraph("código da placa: "));
+	            PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
+	            PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
+	            PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
+	            PdfPCell col430 = new PdfPCell(new Paragraph("local: "));
 
-				tabela1.addCell(col200);
-				tabela1.addCell(col100);
-				tabela1.addCell(col300);
-				tabela1.addCell(col700);
-				tabela1.addCell(col600);
-				tabela1.addCell(col400);
-				tabela1.addCell(col500);
-				tabela1.addCell(col430);
+	            tabela1.addCell(col200);
+	            tabela1.addCell(col100);
+	            tabela1.addCell(col300);
+	            tabela1.addCell(col700);
+	            tabela1.addCell(col600);
+	            tabela1.addCell(col400);
+	            tabela1.addCell(col500);
+	            tabela1.addCell(col430);
 
+	            while (rs.next()) {
+	                tabela1.addCell(rs.getString(1));
+	                tabela1.addCell(rs.getString(2));
+	                tabela1.addCell(rs.getString(3));
+	                tabela1.addCell(rs.getString(4));
+	                tabela1.addCell(rs.getString(5));
+	                tabela1.addCell(rs.getString(6));
+	                tabela1.addCell(rs.getString(7));
+	                tabela1.addCell(rs.getString(8));
+	            }
+	            document.add(tabela1);
 
-				while (rs.next()) {
-					tabela1.addCell(rs.getString(1));
-					tabela1.addCell(rs.getString(2));
-					tabela1.addCell(rs.getString(3));
-					tabela1.addCell(rs.getString(4));
-					tabela1.addCell(rs.getString(5));
-					tabela1.addCell(rs.getString(6));
-					tabela1.addCell(rs.getString(7));
-					tabela1.addCell(rs.getString(8));
+	            document.add(new Paragraph("Falta de estoque:"));
+	            document.add(new Paragraph(" "));
+	            String readClientes = "select codigo as código, nome as produto, estoque, estoquemin as estóque_mínimo from produtos where estoque < estoquemin";
 
+	            pst = con.prepareStatement(readClientes);
 
-				}
-				document.add(tabela1);
+	            rs = pst.executeQuery();
 
-				document.add(new Paragraph("Falta de estoque:"));
-				document.add(new Paragraph(" "));
-				String readClientes = "select codigo as código, nome as produto, estoque, estoquemin as estóque_mínimo \r\n"
-						+ "from produtos where estoque < estoquemin";
+	            PdfPTable tabela = new PdfPTable(5);
 
-				pst = con.prepareStatement(readClientes);
+	            PdfPCell col1 = new PdfPCell(new Paragraph("código: "));
+	            PdfPCell col2 = new PdfPCell(new Paragraph("produto: "));
+	            PdfPCell col3 = new PdfPCell(new Paragraph("validade: "));
+	            PdfPCell col4 = new PdfPCell(new Paragraph("estoque: "));
+	            PdfPCell col5 = new PdfPCell(new Paragraph("estoque mínimo: "));
 
-				rs = pst.executeQuery();
+	            tabela.addCell(col1);
+	            tabela.addCell(col2);
+	            tabela.addCell(col3);
+	            tabela.addCell(col4);
+	            tabela.addCell(col5);
+	            while (rs.next()) {
 
-				PdfPTable tabela = new PdfPTable(5);
+	                tabela.addCell(rs.getString(1));
+	                tabela.addCell(rs.getString(2));
+	                tabela.addCell(rs.getString(3));
+	                tabela.addCell(rs.getString(4));
+	                tabela.addCell(rs.getString(5));
+	            }
 
-				PdfPCell col1 = new PdfPCell(new Paragraph("código: "));
-				PdfPCell col2 = new PdfPCell(new Paragraph("produto: "));
-				PdfPCell col3 = new PdfPCell(new Paragraph("validade: "));
-				PdfPCell col4 = new PdfPCell(new Paragraph("estoque: "));
-				PdfPCell col5 = new PdfPCell(new Paragraph("estoque mínimo: "));
+	            document.add(tabela);
 
-				tabela.addCell(col1);
-				tabela.addCell(col2);
-				tabela.addCell(col3);
-				tabela.addCell(col4);
-				tabela.addCell(col5);
-				while (rs.next()) {
+	            document.add(new Paragraph(" "));
 
-					tabela.addCell(rs.getString(1));
-					tabela.addCell(rs.getString(2));
-					tabela.addCell(rs.getString(3));
-					tabela.addCell(rs.getString(4));
-					tabela.addCell(rs.getString(5));
-				}
+	            document.add(new Paragraph("Patrimônio (Custo):"));
 
-				document.add(tabela);
+	            document.add(new Paragraph(" "));
 
-				document.add(new Paragraph(" "));
+	            String read2 = "select sum(valor * estoque) as Total from produtos";
 
-				document.add(new Paragraph("Patrimônio (Custo):"));
+	            pst = con.prepareStatement(read2);
+	            rs = pst.executeQuery();
 
-				document.add(new Paragraph(" "));
+	            PdfPTable tabela3 = new PdfPTable(1);
+	            PdfPCell col12 = new PdfPCell(new Paragraph("Patrimônio custo: "));
+	            tabela3.addCell(col12);
 
-				String read2 = "select sum(valor * estoque) as Total from produtos";
+	            while (rs.next()) {
+	                tabela3.addCell(rs.getString(1));
+	            }
 
-				pst = con.prepareStatement(read2);
-				rs = pst.executeQuery();
+	            document.add(tabela3);
 
-				PdfPTable tabela3 = new PdfPTable(1);
-				PdfPCell col12 = new PdfPCell(new Paragraph("Patrimônio custo: "));
-				tabela3.addCell(col12);
+	            con.close();
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 
-				while (rs.next()) {
-					tabela3.addCell(rs.getString(1));
-				}
+	    document.close();
 
-				document.add(tabela3);
-
-				con.close();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		document.close();
-
-		try {
-			Desktop.getDesktop().open(new File("estoque.pdf"));
-		} catch (Exception e) {
-			System.out.println(e);
-
-		}
+	    try {
+	        Desktop.getDesktop().open(new File("estoque.pdf"));
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 	}
-
 }
