@@ -46,6 +46,7 @@ serie varchar(45),
 defeito varchar(200),
 valor decimal(10,2), 
 idcli int not null,
+material varchar(105),
 foreign key (idcli) references clientes(idcli)
 );
 

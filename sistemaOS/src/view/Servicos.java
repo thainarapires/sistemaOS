@@ -1175,8 +1175,8 @@ public class Servicos extends JDialog {
 
 
 	private void imprimirGarantia() {
-
 		Document document = new Document();
+		JOptionPane.showMessageDialog(null, "Confira se colocou o valor, se sim, desconsidere essa mensagem!");
 
 		if (txtOS.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
@@ -1315,17 +1315,18 @@ public class Servicos extends JDialog {
 						ap.setAlignment(Element.ALIGN_CENTER);
 						document.add(ap);
 						
-						String dataMySQL = rs.getString(2); // Suponha que a coluna 16 seja a coluna da data do MySQL
+						String dataMySQL = rs.getString(2); 
 
-						// Converter a data do formato padrão do MySQL para "dd-mm-yyyy"
-						LocalDate data = LocalDate.parse(dataMySQL);
+						
+						LocalDate dataAtual = LocalDate.now();
 						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						String dataFormatada = data.format(formatter);
+						String dataFormatada = dataAtual.format(formatter);
 
 						Paragraph assi = new Paragraph(
 								"\nSão Paulo, " + dataFormatada);
 						assi.setAlignment(Element.ALIGN_CENTER);
 						document.add(assi);
+						
 						
 					}
 
