@@ -738,9 +738,7 @@ public class Clientes extends JDialog {
 					txtBairro.setText(rs.getString(9));
 					txtCEP.setText(rs.getString(10));
 					txtCidade.setText(rs.getString(11));
-
 					cboUF.setSelectedItem(rs.getString(12));
-
 					txtTelefone.setText(rs.getString(13));
 					txtEmail.setText(rs.getString(14));
 

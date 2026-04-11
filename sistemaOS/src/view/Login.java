@@ -133,12 +133,13 @@ public class Login extends JFrame {
 		contentPane.add(txtSenha);
 		txtSenha.setBackground(Color.WHITE);
 		txtSenha.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
-
+		txtLogin.setText("admin");
+		txtSenha.setText("admin");
 		JLabel lblSenha = new JLabel("SENHA: ");
 		lblSenha.setBounds(510, 342, 417, 32);
 		contentPane.add(lblSenha);
 		lblSenha.setFont(new Font("Arial", Font.PLAIN, 28));
-
+		
 		btnAcessar = new JButton("LOGAR");
 		btnAcessar.setFont(new Font("Arial", Font.BOLD, 30));
 		btnAcessar.setFocusPainted(false);

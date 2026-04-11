@@ -497,7 +497,6 @@ public class Servicos extends JDialog {
 				todasOS.append("Número da OS: ").append(rs.getString(1)).append("     ");
 				todasOS.append("Cliente: ").append(rs.getString(12)).append("     ");
 				todasOS.append("ID do Cliente: ").append(rs.getString(9)).append("     ");
-
 				todasOS.append("\n");
 			}
 
@@ -511,6 +510,32 @@ public class Servicos extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void exibeUltimaOS() {
+	    String query = "SELECT * FROM servicos " +
+	                   "INNER JOIN clientes ON servicos.idcli = clientes.idcli " +
+	                   "ORDER BY os DESC LIMIT 1";
+
+	    try {
+	        con = dao.conectar();
+	        pst = con.prepareStatement(query);
+	        rs = pst.executeQuery();
+
+	        if (rs.next()) {
+	            String mensagem = "Última OS criada: " + rs.getString("os") + "\n" +
+	                    "Cliente: " + rs.getString("nome");
+
+	            JOptionPane.showMessageDialog(null, mensagem);
+	        } else {
+	            JOptionPane.showMessageDialog(null, "Nenhuma OS encontrada.");
+	        }
+
+	        con.close();
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 	/**
@@ -580,7 +605,6 @@ public class Servicos extends JDialog {
 			try {
 
 				con = dao.conectar();
-
 				pst = con.prepareStatement(create);
 				pst.setString(1, txtEquipamento.getText());
 				pst.setString(2, txtMarca.getText());
@@ -593,6 +617,7 @@ public class Servicos extends JDialog {
 				pst.executeUpdate();
 
 				JOptionPane.showMessageDialog(null, "OS adicionada");
+				exibeUltimaOS();
 				limparCampos();
 
 				con.close();
@@ -1185,6 +1210,7 @@ public class Servicos extends JDialog {
 		} else {
 
 			try {
+				
 
 				PdfWriter.getInstance(document, new FileOutputStream("osgarantia.pdf"));
 
@@ -1202,7 +1228,7 @@ public class Servicos extends JDialog {
 					rs = pst.executeQuery();
 
 					if (rs.next()) {
-
+						
 						Image imagem = Image.getInstance(Servicos.class.getResource("/img/Logo.png"));
 
 						imagem.scaleToFit(128, 128);
