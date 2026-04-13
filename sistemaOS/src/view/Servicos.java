@@ -19,6 +19,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.swing.DefaultListModel;
@@ -35,11 +36,14 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 
+import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -76,6 +80,12 @@ public class Servicos extends JDialog {
 	private JTextField txtModelo;
 	private JTextField txtSerie;
 	private JTextField txtMaterial;
+	private static final com.itextpdf.text.Font FONTE_TITULO = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
+	private static final com.itextpdf.text.Font FONTE_SUBTITULO = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 13);
+	private static final com.itextpdf.text.Font FONTE_NORMAL = FontFactory.getFont(FontFactory.HELVETICA, 10);
+	private static final com.itextpdf.text.Font FONTE_NORMAL_BOLD = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
+	private static final com.itextpdf.text.Font FONTE_PEQUENA = FontFactory.getFont(FontFactory.HELVETICA, 9);
+	private static final com.itextpdf.text.Font FONTE_PEQUENA_BOLD = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9);
 
 	/**
 	 * Launch the application.
@@ -820,558 +830,439 @@ public class Servicos extends JDialog {
 
 		}
 	}
-
-	/**
-	 * Metodo responsavel por: abrir uma das escolhas de qual OS imprimir.
-	 */
+	
+	
 	private void ImprimirOS() {
-		int choice = showPrintOptionsDialog();
-		
-		if (choice == JOptionPane.YES_OPTION) {
-			imprimirGarantia();
-		} else if (choice == JOptionPane.NO_OPTION) {
-			// Aqui era a segunda verificação incorreta.
-			int secondChoice = showSecondPrintOptionsDialog();
+	    int choice = showPrintOptionsDialog();
 
-			if (secondChoice == JOptionPane.YES_OPTION) {
-				imprimirOSEmpresa();
-			} else if (secondChoice == JOptionPane.NO_OPTION) {
-				imprimirOSCliente();
-			} else {
+	    if (choice == JOptionPane.YES_OPTION) {
+	        imprimirGarantia();
+	    } else if (choice == JOptionPane.NO_OPTION) {
+	        int secondChoice = showSecondPrintOptionsDialog();
 
-			}
-		}
+	        if (secondChoice == JOptionPane.YES_OPTION) {
+	            imprimirOSEmpresa();
+	        } else if (secondChoice == JOptionPane.NO_OPTION) {
+	            imprimirOSCliente();
+	        }
+	    }
 	}
+
 	/**
 	 * Metodo responsavel por: escrever as opcoes de qual impressao escolher.
 	 */
 	private static int showPrintOptionsDialog() {
-		Object[] options = { "Imprimir Garantia", "Imprimir Ordens de Serviço" };
-		return JOptionPane.showOptionDialog(null, "Escolha qual via imprimir:", "Opções de Impressão",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+	    Object[] options = { "Imprimir Garantia", "Imprimir Ordens de Serviço" };
+	    return JOptionPane.showOptionDialog(
+	            null,
+	            "Escolha qual via imprimir:",
+	            "Opções de Impressão",
+	            JOptionPane.YES_NO_CANCEL_OPTION,
+	            JOptionPane.QUESTION_MESSAGE,
+	            null,
+	            options,
+	            options[0]
+	    );
 	}
 
 	/**
-	 * Método para mostrar o segundo diálogo, caso o usuário escolha a opção
-	 * "Imprimir Via Empresa".
+	 * Método para mostrar o segundo diálogo.
 	 */
 	private static int showSecondPrintOptionsDialog() {
-		Object[] options = { "Imprimir Via Empresa", "Imprimir Via Cliente" };
-		return JOptionPane.showOptionDialog(null, "Escolha qual via imprimir:", "Opções de Impressão",
-				JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+	    Object[] options = { "Imprimir Via Empresa", "Imprimir Via Cliente" };
+	    return JOptionPane.showOptionDialog(
+	            null,
+	            "Escolha qual via imprimir:",
+	            "Opções de Impressão",
+	            JOptionPane.YES_NO_CANCEL_OPTION,
+	            JOptionPane.QUESTION_MESSAGE,
+	            null,
+	            options,
+	            options[0]
+	    );
 	}
 
 	/**
 	 * Metodo responsavel por: imprimir a OS do cliente.
 	 */
 	private void imprimirOSCliente() {
-
-		Document document = new Document();
-
-		if (txtOS.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
-			txtOS.requestFocus();
-
-		} else {
-
-			try {
-
-				PdfWriter.getInstance(document, new FileOutputStream("oscliente.pdf"));
-
-				document.open();
-
-				String readOS = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where os=?";
-
-				try {
-
-					con = dao.conectar();
-
-					pst = con.prepareStatement(readOS);
-					pst.setString(1, txtOS.getText());
-
-					rs = pst.executeQuery();
-
-					if (rs.next()) {
-
-						Image imagem = Image.getInstance(Servicos.class.getResource("/img/Logo.png"));
-
-						imagem.scaleToFit(128, 128);
-
-						imagem.setAlignment(Element.ALIGN_LEFT);
-						document.add(imagem);
-
-						Paragraph OS = new Paragraph("SP ASSISTÊNCIA TV");
-						OS.setAlignment(Element.ALIGN_CENTER);
-						document.add(OS);
-
-						Paragraph via = new Paragraph(" (Via cliente) ");
-						via.setAlignment(Element.ALIGN_CENTER);
-						document.add(via);
-
-						Paragraph cp = new Paragraph("COMPROVANTE DE RETIRADA",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						cp.setAlignment(Element.ALIGN_RIGHT);
-						document.add(cp);
-
-						Paragraph space = new Paragraph(" ");
-						space.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(space);
-						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 48.554.688/0001-88  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
-						desc.setAlignment(Element.ALIGN_LEFT);
-						document.add(desc);
-
-						Paragraph desc2 = new Paragraph("\nSERVIÇO ESPECIALIZADO:",
-								FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD));
-						desc2.setAlignment(Element.ALIGN_LEFT);
-						document.add(desc2);
-
-						Paragraph TVS = new Paragraph(
-								" TV LED - TV LCD - TV PLASMA - 4K - SAMSUNG \n LG - AOC - PHILIPS - TOSHIBA");
-						TVS.setAlignment(Element.ALIGN_RIGHT);
-						document.add(TVS);
-
-						Paragraph os = new Paragraph("OS: " + rs.getString(1) + "\n",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						os.setAlignment(Element.ALIGN_RIGHT);
-
-						document.add(os);
-
-						Paragraph nome = new Paragraph("Cliente: " + rs.getString(12));
-						nome.setAlignment(Element.ALIGN_LEFT);
-						document.add(nome);
-
-						Paragraph endereco = new Paragraph("Endereço: " + rs.getString(16) + ", " + rs.getString(17));
-						endereco.setAlignment(Element.ALIGN_LEFT);
-						document.add(endereco);
-
-						Paragraph bairro = new Paragraph("Bairro: " + rs.getString(19));
-						bairro.setAlignment(Element.ALIGN_LEFT);
-						document.add(bairro);
-						
-						Paragraph compl = new Paragraph("Complemento: " + rs.getString(18) + "\n");
-						compl.setAlignment(Element.ALIGN_LEFT);
-						document.add(compl);
-
-						Paragraph aparelho = new Paragraph("\n Dados do aparelho: \n   ",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						aparelho.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(aparelho);
-
-						PdfPTable tabela = new PdfPTable(4);
-						PdfPCell col1 = new PdfPCell(new Paragraph("Equipamento: "));
-
-						PdfPCell col2 = new PdfPCell(new Paragraph("Marca: "));
-
-						PdfPCell col3 = new PdfPCell(new Paragraph("Modelo: "));
-
-						PdfPCell col4 = new PdfPCell(new Paragraph("Número de série: "));
-
-						tabela.addCell(col1);
-						tabela.addCell(col2);
-						tabela.addCell(col3);
-						tabela.addCell(col4);
-
-						tabela.addCell(rs.getString(3));
-						tabela.addCell(rs.getString(4));
-						tabela.addCell(rs.getString(5));
-						tabela.addCell(rs.getString(6));
-
-						document.add(tabela);
-
-						Paragraph def = new Paragraph("Defeito: (estado do aparelho ou acessório) \n" + rs.getString(7)
-								+ "\n________________________________________________________________");
-						def.setAlignment(Element.ALIGN_LEFT);
-						document.add(def);
-
-						String dataMySQL = rs.getString(2); // Suponha que a coluna 16 seja a coluna da data do MySQL
-
-						// Converter a data do formato padrão do MySQL para "dd-mm-yyyy"
-						LocalDate data = LocalDate.parse(dataMySQL);
-						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						String dataFormatada = data.format(formatter);
-
-						Paragraph assin = new Paragraph(
-								"\n \n \n  Aley Luciano Pires da Silva \n      Ass. Responsável                                                                     São Paulo, "
-										+ dataFormatada);
-						assin.setAlignment(Element.ALIGN_LEFT);
-						document.add(assin);
-
-						Paragraph under = new Paragraph(
-								"\n________________________________________________________________________ \n");
-						under.setAlignment(Element.ALIGN_LEFT);
-						document.add(under);
-
-						Paragraph ap = new Paragraph(
-								"Eu estou ciente que o aparelho acima está sendo retirado pela SP ASSISTÊNCIA TV para reparo. \n");
-						ap.setAlignment(Element.ALIGN_LEFT);
-						document.add(ap);
-
-						// Paragraph data = new Paragraph("Data OS: " + rs.getString(2));
-						// data.setAlignment(Element.ALIGN_CENTER);
-						// document.add(data);
-					}
-
-					con.close();
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			} finally {
-				document.close();
-
-				try {
-
-					Desktop.getDesktop().open(new File("oscliente.pdf"));
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
-		}
+	    gerarOSPdf("oscliente.pdf", "Via cliente", true);
 	}
+
 	/**
 	 * Metodo responsavel por: imprimir a OS da empresa.
 	 */
 	private void imprimirOSEmpresa() {
-
-		Document document = new Document();
-
-		if (txtOS.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
-			txtOS.requestFocus();
-
-		} else {
-
-			try {
-
-				PdfWriter.getInstance(document, new FileOutputStream("osempresa.pdf"));
-
-				document.open();
-
-				String readOS = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where os=?";
-
-				try {
-
-					con = dao.conectar();
-
-					pst = con.prepareStatement(readOS);
-					pst.setString(1, txtOS.getText());
-
-					rs = pst.executeQuery();
-
-					if (rs.next()) {
-
-						Image imagem = Image.getInstance(Servicos.class.getResource("/img/Logo.png"));
-
-						imagem.scaleToFit(128, 128);
-
-						imagem.setAlignment(Element.ALIGN_LEFT);
-						document.add(imagem);
-
-						Paragraph OS = new Paragraph("SP ASSISTÊNCIA TV");
-						OS.setAlignment(Element.ALIGN_CENTER);
-						document.add(OS);
-
-						Paragraph via = new Paragraph(" (Via empresa) ");
-						via.setAlignment(Element.ALIGN_CENTER);
-						document.add(via);
-
-						Paragraph cp = new Paragraph("COMPROVANTE DE RETIRADA",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						cp.setAlignment(Element.ALIGN_RIGHT);
-						document.add(cp);
-
-						Paragraph space = new Paragraph(" ");
-						space.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(space);
-
-						Paragraph space2 = new Paragraph(" ");
-						space2.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(space2);
-
-						Paragraph desc2 = new Paragraph("SERVIÇO ESPECIALIZADO:",
-								FontFactory.getFont(FontFactory.HELVETICA, 16, Font.BOLD));
-						desc2.setAlignment(Element.ALIGN_LEFT);
-						document.add(desc2);
-
-						Paragraph TVS = new Paragraph(
-								" TV LED - TV LCD - TV PLASMA - 4K - SAMSUNG \n LG - AOC - PHILIPS - TOSHIBA");
-						TVS.setAlignment(Element.ALIGN_RIGHT);
-						document.add(TVS);
-
-						Paragraph os = new Paragraph("OS: " + rs.getString(1) + "\n",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						os.setAlignment(Element.ALIGN_RIGHT);
-
-						document.add(os);
-
-						Paragraph nome = new Paragraph("Cliente: " + rs.getString(12));
-						nome.setAlignment(Element.ALIGN_LEFT);
-						document.add(nome);
-
-						Paragraph endereco = new Paragraph("Endereço: " + rs.getString(16) + ", " + rs.getString(17));
-						endereco.setAlignment(Element.ALIGN_LEFT);
-						document.add(endereco);
-
-						Paragraph bairro = new Paragraph("Bairro: " + rs.getString(19));
-						bairro.setAlignment(Element.ALIGN_LEFT);
-						document.add(bairro);
-						
-						Paragraph compl = new Paragraph("Complemento: " + rs.getString(18) + "\n");
-						compl.setAlignment(Element.ALIGN_LEFT);
-						document.add(compl);
-
-						Paragraph aparelho = new Paragraph("\n Dados do aparelho: \n   ",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						aparelho.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(aparelho);
-
-						PdfPTable tabela = new PdfPTable(4);
-						PdfPCell col1 = new PdfPCell(new Paragraph("Equipamento: "));
-
-						PdfPCell col2 = new PdfPCell(new Paragraph("Marca: "));
-
-						PdfPCell col3 = new PdfPCell(new Paragraph("Modelo: "));
-
-						PdfPCell col4 = new PdfPCell(new Paragraph("Número de série: "));
-
-						tabela.addCell(col1);
-						tabela.addCell(col2);
-						tabela.addCell(col3);
-						tabela.addCell(col4);
-
-						tabela.addCell(rs.getString(3));
-						tabela.addCell(rs.getString(4));
-						tabela.addCell(rs.getString(5));
-						tabela.addCell(rs.getString(6));
-
-						document.add(tabela);
-
-						Paragraph def = new Paragraph("Defeito (estado do aparelho ou acessório): \n" + rs.getString(7)
-								+ "\n\n________________________________________________________________");
-						def.setAlignment(Element.ALIGN_LEFT);
-						document.add(def);
-
-						String dataMySQL = rs.getString(2); // Suponha que a coluna 16 seja a coluna da data do MySQL
-
-						// Converter a data do formato padrão do MySQL para "dd-mm-yyyy"
-						LocalDate data = LocalDate.parse(dataMySQL);
-						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						String dataFormatada = data.format(formatter);
-
-						Paragraph assin = new Paragraph(
-								"\n \n Aley Luciano Pires da Silva \n      Ass. Responsável                                                                     São Paulo, "
-										+ dataFormatada);
-						assin.setAlignment(Element.ALIGN_LEFT);
-						document.add(assin);
-
-						Paragraph under = new Paragraph(
-								"\n________________________________________________________________________ \n");
-						under.setAlignment(Element.ALIGN_LEFT);
-						document.add(under);
-
-						Paragraph ap = new Paragraph(
-								"Eu estou ciente que o aparelho acima está sendo retirado pela SP ASSISTÊNCIA TV para reparo. \n");
-						ap.setAlignment(Element.ALIGN_LEFT);
-						document.add(ap);
-
-					
-					}
-
-					con.close();
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			} finally {
-				document.close();
-
-				try {
-
-					Desktop.getDesktop().open(new File("osempresa.pdf"));
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
-		}
+	    gerarOSPdf("osempresa.pdf", "Via empresa", false);
 	}
 
-
+	/**
+	 * Metodo responsavel por: imprimir a garantia.
+	 */
 	private void imprimirGarantia() {
-		Document document = new Document();
-		JOptionPane.showMessageDialog(null, "Confira se colocou o valor, se sim, desconsidere essa mensagem!");
+	    JOptionPane.showMessageDialog(null, "Confira se colocou o valor, se sim, desconsidere essa mensagem!");
+	    gerarGarantiaPdf("osgarantia.pdf");
+	}
 
-		if (txtOS.getText().isEmpty()) {
-			JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
-			txtOS.requestFocus();
+	/**
+	 * Gera PDF de OS (cliente ou empresa).
+	 */
+	private void gerarOSPdf(String nomeArquivo, String tipoVia, boolean mostrarDadosEmpresa) {
+	    if (txtOS.getText().trim().isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
+	        txtOS.requestFocus();
+	        return;
+	    }
 
-		} else {
+	    Document document = new Document(PageSize.A4, 36, 36, 36, 36);
 
-			try {
-				
+	    try {
+	        PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
+	        document.open();
 
-				PdfWriter.getInstance(document, new FileOutputStream("osgarantia.pdf"));
+	        String readOS = "select * from servicos "
+	                + "inner join clientes on servicos.idcli = clientes.idcli "
+	                + "where os=?";
 
-				document.open();
+	        con = dao.conectar();
+	        pst = con.prepareStatement(readOS);
+	        pst.setString(1, txtOS.getText().trim());
+	        rs = pst.executeQuery();
 
-				String readOS = "select * from servicos inner join clientes on servicos.idcli = clientes.idcli where os=?";
+	        if (rs.next()) {
+	            adicionarLogo(document);
+	            adicionarCabecalhoOS(document, tipoVia, mostrarDadosEmpresa);
+	            adicionarDadosCliente(document);
+	            adicionarTabelaAparelho(document);
 
-				try {
+	            Paragraph defeito = new Paragraph(
+	                    "Defeito (estado do aparelho ou acessório):\n" + safe(rs.getString(7)),
+	                    FONTE_NORMAL
+	            );
+	            document.add(defeito);
 
-					con = dao.conectar();
+	            Paragraph assinatura = new Paragraph(
+	                    "\nAley Luciano Pires da Silva\n"
+	                    + "Ass. Responsável                                              São Paulo, " + formatarDataBanco(rs.getString(2)),
+	                    FONTE_NORMAL
+	            );
+	            assinatura.setAlignment(Element.ALIGN_LEFT);
+	            assinatura.setSpacingAfter(12);
+	            document.add(assinatura);
 
-					pst = con.prepareStatement(readOS);
-					pst.setString(1, txtOS.getText());
+	            Paragraph linha = new Paragraph("_______________________________________________________________");
+	            linha.setAlignment(Element.ALIGN_LEFT);
+	            document.add(linha);
 
-					rs = pst.executeQuery();
+	            Paragraph termo = new Paragraph(
+	                    "\nEu estou ciente que o aparelho acima está sendo retirado pela SP ASSISTÊNCIA TV para reparo.",
+	                    FONTE_NORMAL
+	            );
+	            termo.setAlignment(Element.ALIGN_LEFT);
+	            document.add(termo);
 
-					if (rs.next()) {
-						
-						Image imagem = Image.getInstance(Servicos.class.getResource("/img/Logo.png"));
+	        } else {
+	            JOptionPane.showMessageDialog(null, "OS não encontrada.");
+	        }
 
-						imagem.scaleToFit(128, 128);
+	    } catch (Exception e) {
+	        JOptionPane.showMessageDialog(null, "Erro ao gerar PDF: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pst != null) pst.close();
+	            if (con != null) con.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 
-						imagem.setAlignment(Element.ALIGN_LEFT);
-						document.add(imagem);
+	        if (document.isOpen()) {
+	            document.close();
+	        }
 
-						Paragraph OS = new Paragraph("SP ASSISTÊNCIA TV");
-						OS.setAlignment(Element.ALIGN_CENTER);
-						document.add(OS);
+	        try {
+	            Desktop.getDesktop().open(new File(nomeArquivo));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 
-						Paragraph via = new Paragraph(" (Via do cliente) ",
-								FontFactory.getFont(FontFactory.HELVETICA, 10, Font.BOLD));
-						via.setAlignment(Element.ALIGN_RIGHT);
-						document.add(via);
+	/**
+	 * Gera PDF de garantia.
+	 */
+	private void gerarGarantiaPdf(String nomeArquivo) {
+	    if (txtOS.getText().trim().isEmpty()) {
+	        JOptionPane.showMessageDialog(null, "Preencha qual é a OS");
+	        txtOS.requestFocus();
+	        return;
+	    }
 
-						Paragraph recibo = new Paragraph(" RECIBO/GARANTIA ",
-								FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
-						recibo.setAlignment(Element.ALIGN_RIGHT);
-						document.add(recibo);
+	    Document document = new Document(PageSize.A4, 36, 36, 36, 36);
 
-						Paragraph space = new Paragraph(" ");
-						space.setAlignment(Element.ALIGN_MIDDLE);
-						document.add(space);
+	    try {
+	        PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
+	        document.open();
 
-						Paragraph desc = new Paragraph(
-								" Pessoa Jurídica \n CNPJ: 48.554.688/0001-88  INSC. ESTADUAL   INS. MUNICIPAL \n Endereço: Rua Tabapuã, 648 - Loja 1 \n Laboratório Técnico: Rua Manuel da Costa, 391 \n (11) 947485487        Email: spassistenciavi@gmail.com");
-						desc.setAlignment(Element.ALIGN_LEFT);
-						document.add(desc);
+	        String readOS = "select * from servicos "
+	                + "inner join clientes on servicos.idcli = clientes.idcli "
+	                + "where os=?";
 
-						Paragraph desc2 = new Paragraph("\nSERVIÇO AUTORIZADO:",
-								FontFactory.getFont(FontFactory.HELVETICA, 14, Font.BOLD));
-						desc2.setAlignment(Element.ALIGN_LEFT);
-						document.add(desc2);
+	        con = dao.conectar();
+	        pst = con.prepareStatement(readOS);
+	        pst.setString(1, txtOS.getText().trim());
+	        rs = pst.executeQuery();
 
-						Paragraph TVS = new Paragraph(
-								" TV LED - TV LCD - TV PLASMA - 4K - SAMSUNG \n LG - AOC - PHILIPS - TOSHIBA");
-						TVS.setAlignment(Element.ALIGN_RIGHT);
-						document.add(TVS);
-						Paragraph nome = new Paragraph("Cliente: " + rs.getString(12));
-						nome.setAlignment(Element.ALIGN_LEFT);
-						document.add(nome);
+	        if (rs.next()) {
+	            adicionarLogo(document);
+	            adicionarCabecalhoGarantia(document);
+	            adicionarDadosCliente(document);
 
-						Paragraph endereco = new Paragraph("Endereço: " + rs.getString(16) + ", " + rs.getString(17));
-						endereco.setAlignment(Element.ALIGN_LEFT);
-						document.add(endereco);
+	            Paragraph cpfCnpj = new Paragraph("CPF: ____________________    CNPJ: ____________________", FONTE_NORMAL);
+	            cpfCnpj.setSpacingAfter(10);
+	            document.add(cpfCnpj);
 
-						Paragraph bairro = new Paragraph("Bairro: " + rs.getString(19) + "\n");
-						bairro.setAlignment(Element.ALIGN_LEFT);
-						document.add(bairro);
-						
-						Paragraph compl = new Paragraph("Complemento: " + rs.getString(18) + "\n");
-						compl.setAlignment(Element.ALIGN_LEFT);
-						document.add(compl);
+	            adicionarTabelaAparelho(document);
 
-						Paragraph cpf = new Paragraph(
-								"CPF:                                                           CNPJ:              \n\n");
-						cpf.setAlignment(Element.ALIGN_LEFT);
-						document.add(cpf);
+	            Paragraph material = new Paragraph("Material utilizado: " + safe(rs.getString(10)), FONTE_NORMAL);
+	            material.setSpacingBefore(8);
+	            material.setSpacingAfter(10);
+	            document.add(material);
 
-						PdfPTable tabela = new PdfPTable(4);
-						PdfPCell col1 = new PdfPCell(new Paragraph("Equipamento: "));
+	            Paragraph total = new Paragraph("TOTAL: R$ " + safe(rs.getString(8)), FONTE_NORMAL_BOLD);
+	            total.setAlignment(Element.ALIGN_RIGHT);
+	            total.setSpacingAfter(15);
+	            document.add(total);
 
-						PdfPCell col2 = new PdfPCell(new Paragraph("Marca: "));
+	            Paragraph garantia = new Paragraph(
+	                    "ESTE SERVIÇO POSSUI GARANTIA DE 90 DIAS A PARTIR DA DATA DE ENTREGA!",
+	                    FONTE_NORMAL_BOLD
+	            );
+	            garantia.setAlignment(Element.ALIGN_CENTER);
+	            garantia.setSpacingAfter(10);
+	            document.add(garantia);
 
-						PdfPCell col3 = new PdfPCell(new Paragraph("Modelo: "));
+	            Paragraph textoGarantia = new Paragraph(
+	                    "Aley Luciano P. Silva (Administrador)\n"
+	                    + "Afirmo que recebi o meu aparelho em perfeitas condições de funcionamento e que o mesmo foi "
+	                    + "testado na minha presença, não tendo nada a reclamar contra. A violação do selo de segurança "
+	                    + "implicará na anulação da garantia.",
+	                    FONTE_NORMAL
+	            );
+	            textoGarantia.setAlignment(Element.ALIGN_CENTER);
+	            textoGarantia.setSpacingAfter(12);
+	            document.add(textoGarantia);
 
-						PdfPCell col4 = new PdfPCell(new Paragraph("Número de série: "));
+	            Paragraph data = new Paragraph("São Paulo, " + formatarDataAtual(), FONTE_NORMAL);
+	            data.setAlignment(Element.ALIGN_CENTER);
+	            document.add(data);
 
-						tabela.addCell(col1);
-						tabela.addCell(col2);
-						tabela.addCell(col3);
-						tabela.addCell(col4);
+	        } else {
+	            JOptionPane.showMessageDialog(null, "OS não encontrada.");
+	        }
 
-						tabela.addCell(rs.getString(3));
-						tabela.addCell(rs.getString(4));
-						tabela.addCell(rs.getString(5));
-						tabela.addCell(rs.getString(6));
+	    } catch (Exception e) {
+	        JOptionPane.showMessageDialog(null, "Erro ao gerar PDF: " + e.getMessage());
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pst != null) pst.close();
+	            if (con != null) con.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 
-						document.add(tabela);
+	        if (document.isOpen()) {
+	            document.close();
+	        }
 
-						Paragraph mat = new Paragraph("\nMaterial utilizado: " + rs.getString(10));
-						mat.setAlignment(Element.ALIGN_LEFT);
-						document.add(mat);
+	        try {
+	            Desktop.getDesktop().open(new File(nomeArquivo));
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	}
 
-						Paragraph def = new Paragraph("Código    Quantidade     Descrição",
-								FontFactory.getFont(FontFactory.HELVETICA, 8, Font.BOLD));
-						def.setAlignment(Element.ALIGN_LEFT);
-						document.add(def);
+	private void adicionarLogo(Document document) throws Exception {
+	    Image imagem = Image.getInstance(Servicos.class.getResource("/img/Logo.png"));
+	    imagem.scaleToFit(110, 110);
+	    imagem.setAlignment(Element.ALIGN_LEFT);
+	    document.add(imagem);
+	}
 
-						Paragraph assin = new Paragraph("\n");
-						assin.setAlignment(Element.ALIGN_RIGHT);
-						document.add(assin);
+	private void adicionarCabecalhoOS(Document document, String tipoVia, boolean mostrarDadosEmpresa) throws Exception {
+	    Paragraph empresa = new Paragraph("SP ASSISTÊNCIA TV", FONTE_TITULO);
+	    empresa.setAlignment(Element.ALIGN_CENTER);
+	    document.add(empresa);
 
-						Paragraph assin1 = new Paragraph(
-								"                                                                               TOTAL: R$"
-										+ rs.getString(8));
-						assin1.setAlignment(Element.ALIGN_CENTER);
-						document.add(assin1);
+	    Paragraph via = new Paragraph("(" + tipoVia + ")", FONTE_NORMAL_BOLD);
+	    via.setAlignment(Element.ALIGN_CENTER);
+	    document.add(via);
 
-						Paragraph under = new Paragraph(
-								"\nESTE SERVIÇO POSSUI GARANTIA DE 90 DIAS A PARTIR DA DATA DE ENTREGA! \n",
-								FontFactory.getFont(FontFactory.HELVETICA, 12, Font.BOLD));
-						under.setAlignment(Element.ALIGN_CENTER);
-						document.add(under);
+	    Paragraph titulo = new Paragraph("COMPROVANTE DE RETIRADA", FONTE_SUBTITULO);
+	    titulo.setAlignment(Element.ALIGN_CENTER);
+	    titulo.setSpacingAfter(10);
+	    document.add(titulo);
 
-						Paragraph ap = new Paragraph(
-								"Aley Luciano P.Silva (Administrador) \n- Afirmo que recebi o meu aparelho em perfeitas condições de funcionamento e que o mesmo foi testado na minha presença, não tendo nada a reclamar contra. A Violação do Selo de Segurança, implicará na anulação da garantia",
-								FontFactory.getFont(FontFactory.HELVETICA, 12));
-						ap.setAlignment(Element.ALIGN_CENTER);
-						document.add(ap);
-						
-						String dataMySQL = rs.getString(2); 
+	    if (mostrarDadosEmpresa) {
+	        Paragraph desc = new Paragraph(
+	                "Pessoa Jurídica\n"
+	                + "CNPJ: 48.554.688/0001-88\n"
+	                + "Endereço: Rua Tabapuã, 648 - Itaim Bibi, 04533-002 Loja 1\n"
+	                + "Laboratório Técnico: Rua Manuel da Costa, 391 - Vila Darli\n"
+	                + "(11) 91530-1089    Email: spassistenciavi@gmail.com",
+	                FONTE_PEQUENA
+	        );
+	        desc.setAlignment(Element.ALIGN_LEFT);
+	        desc.setSpacingAfter(10);
+	        document.add(desc);
+	    }
 
-						
-						LocalDate dataAtual = LocalDate.now();
-						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-						String dataFormatada = dataAtual.format(formatter);
+	    Paragraph servico = new Paragraph("SERVIÇO ESPECIALIZADO:", FONTE_NORMAL_BOLD);
+	    servico.setAlignment(Element.ALIGN_LEFT);
+	    document.add(servico);
 
-						Paragraph assi = new Paragraph(
-								"\nSão Paulo, " + dataFormatada);
-						assi.setAlignment(Element.ALIGN_CENTER);
-						document.add(assi);
-						
-						
-					}
+	    Paragraph marcas = new Paragraph(
+	            "TV LED - TV LCD - TV PLASMA - 4K - SAMSUNG - LG - AOC - PHILIPS - TOSHIBA",
+	            FONTE_NORMAL
+	    );
+	    marcas.setSpacingAfter(10);
+	    document.add(marcas);
+	}
 
-					con.close();
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			} finally {
-				document.close();
+	private void adicionarCabecalhoGarantia(Document document) throws Exception {
+	    Paragraph empresa = new Paragraph("SP ASSISTÊNCIA TV", FONTE_TITULO);
+	    empresa.setAlignment(Element.ALIGN_CENTER);
+	    document.add(empresa);
 
-				try {
+	    Paragraph via = new Paragraph("(Via do cliente)", FONTE_NORMAL_BOLD);
+	    via.setAlignment(Element.ALIGN_CENTER);
+	    document.add(via);
 
-					Desktop.getDesktop().open(new File("osgarantia.pdf"));
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
-		}
+	    Paragraph titulo = new Paragraph("RECIBO / GARANTIA", FONTE_SUBTITULO);
+	    titulo.setAlignment(Element.ALIGN_CENTER);
+	    titulo.setSpacingAfter(10);
+	    document.add(titulo);
+
+	    Paragraph desc = new Paragraph(
+	            "Pessoa Jurídica\n"
+	            + "CNPJ: 48.554.688/0001-88\n"
+	            + "Endereço: Rua Tabapuã, 648 - Itaim Bibi, 04533-002 Loja 1\n"
+	            + "Laboratório Técnico: Rua Manuel da Costa, 391 - Vila Darli\n"
+	            + "(11) 91530-1089    Email: spassistenciavi@gmail.com",
+	            FONTE_PEQUENA
+	    );
+	    desc.setAlignment(Element.ALIGN_LEFT);
+	    desc.setSpacingAfter(10);
+	    document.add(desc);
+
+	    Paragraph servico = new Paragraph("SERVIÇO AUTORIZADO:", FONTE_NORMAL_BOLD);
+	    servico.setAlignment(Element.ALIGN_LEFT);
+	    document.add(servico);
+
+	    Paragraph marcas = new Paragraph(
+	            "TV LED - TV LCD - TV PLASMA - 4K - SAMSUNG - LG - AOC - PHILIPS - TOSHIBA",
+	            FONTE_NORMAL
+	    );
+	    marcas.setSpacingAfter(10);
+	    document.add(marcas);
+	}
+
+	private void adicionarDadosCliente(Document document) throws Exception {
+	    Paragraph os = new Paragraph("OS: " + safe(rs.getString(1)), FONTE_NORMAL_BOLD);
+	    os.setAlignment(Element.ALIGN_RIGHT);
+	    os.setSpacingAfter(8);
+	    document.add(os);
+
+	    Paragraph nome = new Paragraph("Cliente: " + safe(rs.getString(12)), FONTE_NORMAL);
+	    nome.setAlignment(Element.ALIGN_LEFT);
+	    document.add(nome);
+
+	    Paragraph endereco = new Paragraph(
+	            "Endereço: " + safe(rs.getString(16)) + ", " + safe(rs.getString(17)),
+	            FONTE_NORMAL
+	    );
+	    endereco.setAlignment(Element.ALIGN_LEFT);
+	    document.add(endereco);
+
+	    Paragraph bairro = new Paragraph("Bairro: " + safe(rs.getString(19)), FONTE_NORMAL);
+	    bairro.setAlignment(Element.ALIGN_LEFT);
+	    document.add(bairro);
+
+	    Paragraph complemento = new Paragraph("Complemento: " + safe(rs.getString(18)), FONTE_NORMAL);
+	    complemento.setAlignment(Element.ALIGN_LEFT);
+	    complemento.setSpacingAfter(10);
+	    document.add(complemento);
+	}
+
+	private void adicionarTabelaAparelho(Document document) throws Exception {
+	    Paragraph aparelho = new Paragraph("Dados do aparelho", FONTE_NORMAL_BOLD);
+	    aparelho.setSpacingAfter(8);
+	    document.add(aparelho);
+
+	    PdfPTable tabela = new PdfPTable(4);
+	    tabela.setWidthPercentage(100);
+	    tabela.setSpacingAfter(10);
+	    tabela.setWidths(new float[] { 2.2f, 1.5f, 2.0f, 2.3f });
+
+	    tabela.addCell(criarCabecalhoTabela("Equipamento"));
+	    tabela.addCell(criarCabecalhoTabela("Marca"));
+	    tabela.addCell(criarCabecalhoTabela("Modelo"));
+	    tabela.addCell(criarCabecalhoTabela("Número de série"));
+
+	    tabela.addCell(criarCelulaTabela(safe(rs.getString(3))));
+	    tabela.addCell(criarCelulaTabela(safe(rs.getString(4))));
+	    tabela.addCell(criarCelulaTabela(safe(rs.getString(5))));
+	    tabela.addCell(criarCelulaTabela(safe(rs.getString(6))));
+
+	    document.add(tabela);
+	}
+
+	private PdfPCell criarCabecalhoTabela(String texto) {
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, FONTE_PEQUENA_BOLD));
+	    cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+	    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	    cell.setBackgroundColor(new BaseColor(230, 230, 230));
+	    cell.setPadding(6);
+	    return cell;
+	}
+
+	private PdfPCell criarCelulaTabela(String texto) {
+	    PdfPCell cell = new PdfPCell(new Phrase(texto, FONTE_PEQUENA));
+	    cell.setPadding(6);
+	    cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+	    cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+	    cell.setNoWrap(false);
+	    cell.setMinimumHeight(28);
+	    return cell;
+	}
+
+	private String safe(String valor) {
+	    return valor == null ? "" : valor;
+	}
+
+	private String formatarDataAtual() {
+	    return LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	}
+
+	private String formatarDataBanco(String dataMySQL) {
+	    if (dataMySQL == null || dataMySQL.trim().isEmpty()) {
+	        return formatarDataAtual();
+	    }
+
+	    try {
+	        if (dataMySQL.contains(" ")) {
+	            LocalDateTime dataHora = LocalDateTime.parse(dataMySQL.replace(" ", "T"));
+	            return dataHora.toLocalDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	        }
+
+	        LocalDate data = LocalDate.parse(dataMySQL);
+	        return data.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+	    } catch (Exception e) {
+	        return formatarDataAtual();
+	    }
 	}
 }
