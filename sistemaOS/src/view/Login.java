@@ -204,7 +204,6 @@ public class Login extends JFrame {
 						principal.lblNivelAcesso.setForeground(Color.YELLOW);
 						principal.lblNivelAcesso.setFont(new Font("Arial", Font.BOLD, 20));
 						principal.lblNivelAcesso.setText(rs.getString(5).toUpperCase());
-						principal.lblWelcome.setText(rs.getString(2).toUpperCase());
 						
 
 						this.dispose();
@@ -217,7 +216,6 @@ public class Login extends JFrame {
 						principal.lblNomeUsuario.setFont(new Font("Arial", Font.BOLD, 20));
 						principal.lblNivelAcesso.setText(rs.getString(5).toUpperCase());
 						principal.lblNivelAcesso.setFont(new Font("Arial", Font.BOLD, 20));
-						principal.lblWelcome.setText(rs.getString(2).toUpperCase());
 
 						// fechar atela de login após acessar
 						this.dispose();

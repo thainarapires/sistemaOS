@@ -86,6 +86,7 @@ public class Servicos extends JDialog {
 	private static final com.itextpdf.text.Font FONTE_NORMAL_BOLD = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 	private static final com.itextpdf.text.Font FONTE_PEQUENA = FontFactory.getFont(FontFactory.HELVETICA, 9);
 	private static final com.itextpdf.text.Font FONTE_PEQUENA_BOLD = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 9);
+	private JTextField txtCustoPecas;
 
 	/**
 	 * Launch the application.
@@ -256,7 +257,7 @@ public class Servicos extends JDialog {
 		txtValor.setBackground(Color.LIGHT_GRAY);
 		txtValor.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtValor.setColumns(10);
-		txtValor.setBounds(16, 472, 297, 49);
+		txtValor.setBounds(16, 472, 154, 49);
 		getContentPane().add(txtValor);
 
 		JButton btnBuscar = new JButton("Buscar");
@@ -403,7 +404,7 @@ public class Servicos extends JDialog {
 
 		JLabel lblMaterial = new JLabel("Material utilizado:");
 		lblMaterial.setFont(new Font("Arial", Font.PLAIN, 28));
-		lblMaterial.setBounds(323, 434, 659, 39);
+		lblMaterial.setBounds(180, 433, 243, 39);
 		getContentPane().add(lblMaterial);
 
 		txtMaterial = new JTextField();
@@ -411,7 +412,7 @@ public class Servicos extends JDialog {
 		txtMaterial.setColumns(10);
 		txtMaterial.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtMaterial.setBackground(Color.LIGHT_GRAY);
-		txtMaterial.setBounds(323, 472, 659, 49);
+		txtMaterial.setBounds(180, 471, 243, 49);
 		getContentPane().add(txtMaterial);
 		
 		JPanel panel_1_1 = new JPanel();
@@ -425,6 +426,19 @@ public class Servicos extends JDialog {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 18));
 		lblNewLabel.setBounds(331, 4, 406, 29);
 		panel_1_1.add(lblNewLabel);
+		
+		JLabel lblValorDoMaterial = new JLabel("Valor do material comprado:");
+		lblValorDoMaterial.setFont(new Font("Arial", Font.PLAIN, 28));
+		lblValorDoMaterial.setBounds(452, 434, 534, 39);
+		getContentPane().add(lblValorDoMaterial);
+		
+		txtCustoPecas = new JTextField();
+		txtCustoPecas.setFont(new Font("Arial", Font.PLAIN, 26));
+		txtCustoPecas.setColumns(10);
+		txtCustoPecas.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		txtCustoPecas.setBackground(Color.LIGHT_GRAY);
+		txtCustoPecas.setBounds(452, 472, 534, 49);
+		getContentPane().add(txtCustoPecas);
 
 	}
 	
@@ -464,6 +478,7 @@ public class Servicos extends JDialog {
 	                    resultado.append("Defeito: ").append(rs.getString("defeito")).append("\n");
 	                    resultado.append("Valor: ").append(rs.getString("valor")).append("\n");
 	                    resultado.append("Cliente: ").append(rs.getString("nome")).append("\n\n");
+	                    resultado.append("Valor material: ").append(rs.getString("custo_pecas")).append("\n\n");
 
 	                    JOptionPane.showMessageDialog(null, resultado.toString(), "Detalhes da OS", JOptionPane.INFORMATION_MESSAGE);
 
@@ -580,6 +595,7 @@ public class Servicos extends JDialog {
 					txtID.setText(rs.getString(9));
 					txtMaterial.setText(rs.getString(10));
 					txtCliente.setText(rs.getString(12));
+					txtCustoPecas.setText(rs.getString(11));
 
 				} else {
 
@@ -657,13 +673,10 @@ public class Servicos extends JDialog {
 			txtEquipamento.requestFocus();
 
 		} else {
-
-			String update = "update servicos set equipamento=?, marca=?, modelo=?, serie=?, defeito=?, valor=?, idcli=?, material=? where os=?";
+			String update = "update servicos set equipamento=?, marca=?, modelo=?, serie=?, defeito=?, valor=?, idcli=?, material=?, custo_pecas=? where os=?";
 
 			try {
-
 				con = dao.conectar();
-
 				pst = con.prepareStatement(update);
 
 				pst.setString(1, txtEquipamento.getText());
@@ -671,17 +684,19 @@ public class Servicos extends JDialog {
 				pst.setString(3, txtModelo.getText());
 				pst.setString(4, txtSerie.getText());
 				pst.setString(5, txtDefeito.getText());
-				pst.setString(6, txtValor.getText());
+				pst.setString(6, txtValor.getText()); 
 				pst.setString(7, txtID.getText());
 				pst.setString(8, txtMaterial.getText());
-				pst.setString(9, txtOS.getText());
+                
+          
+                String custo = txtCustoPecas.getText().trim().isEmpty() ? "0.00" : txtCustoPecas.getText().replace(",", ".");
+                pst.setString(9, custo);
+                
+				pst.setString(10, txtOS.getText());
 
 				pst.executeUpdate();
 
-				JOptionPane.showMessageDialog(null, "Dados do usuario editados com sucesso!");
-
-				limparCampos();
-
+				JOptionPane.showMessageDialog(null, "Dados da OS editados com sucesso!");
 				con.close();
 
 			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
@@ -692,9 +707,7 @@ public class Servicos extends JDialog {
 			} catch (Exception e) {
 				System.out.println(e);
 			}
-
 		}
-
 	}
 
 	/**
@@ -753,6 +766,7 @@ public class Servicos extends JDialog {
 		txtMarca.setText(null);
 		txtModelo.setText(null);
 		txtMaterial.setText(null);
+		txtCustoPecas.setText(null);
 
 	}
 
@@ -836,6 +850,7 @@ public class Servicos extends JDialog {
 	    int choice = showPrintOptionsDialog();
 
 	    if (choice == JOptionPane.YES_OPTION) {
+	    	editarOS();
 	        imprimirGarantia();
 	    } else if (choice == JOptionPane.NO_OPTION) {
 	        int secondChoice = showSecondPrintOptionsDialog();

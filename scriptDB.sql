@@ -1,4 +1,5 @@
 
+use dbsistema;
 
 create table usuarios (
 id int primary key auto_increment,
@@ -41,6 +42,16 @@ valor decimal(10,2),
 idcli int not null,
 material varchar(105),
 foreign key (idcli) references clientes(idcli)
+);
+
+ALTER TABLE servicos ADD COLUMN custo_pecas DECIMAL(10,2) DEFAULT 0.00;
+
+CREATE TABLE fluxo_caixa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    data_movimentacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    tipo ENUM('ENTRADA', 'SAÍDA') NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    valor DECIMAL(10,2) NOT NULL
 );
 
 create table fornecedores (
