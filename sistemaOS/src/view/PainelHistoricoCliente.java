@@ -41,7 +41,7 @@ public class PainelHistoricoCliente extends JPanel {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     public PainelHistoricoCliente() {
-        setSize(485, 380);
+        setSize(485, 577);
         setLayout(null);
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createTitledBorder(
@@ -52,18 +52,18 @@ public class PainelHistoricoCliente extends JPanel {
         ));
 
         // --- COMPONENTES DE BUSCA ---
-        JLabel lblBusca = new JLabel("Cliente (Nome ou CPF):");
-        lblBusca.setFont(new Font("Tahoma", Font.BOLD, 11));
+        JLabel lblBusca = new JLabel("Nome ou CPF:");
+        lblBusca.setFont(new Font("Tahoma", Font.BOLD, 13));
         lblBusca.setBounds(20, 30, 150, 25);
         add(lblBusca);
 
         txtBusca = new JTextField();
-        txtBusca.setBounds(160, 30, 140, 25);
+        txtBusca.setBounds(110, 29, 140, 25);
         add(txtBusca);
         txtBusca.setToolTipText("Digite o nome completo, parte do nome ou o CPF do cliente");
 
         btnBuscar = new JButton("Buscar Histórico");
-        btnBuscar.setBounds(310, 28, 154, 28);
+        btnBuscar.setBounds(260, 27, 154, 28);
         btnBuscar.setBackground(new Color(0, 102, 204));
         btnBuscar.setForeground(Color.WHITE);
         btnBuscar.setFont(new Font("Arial", Font.BOLD, 12));
@@ -81,18 +81,19 @@ public class PainelHistoricoCliente extends JPanel {
         };
 
         tabelaHistorico = new JTable(modeloTabela);
-        tabelaHistorico.setFont(new Font("Arial", Font.PLAIN, 11));
+        tabelaHistorico.setFont(new Font("Arial", Font.PLAIN, 13));
+        tabelaHistorico.setForeground(Color.BLACK);
         
         // Ajustando tamanho das colunas para os dados da oficina
-        tabelaHistorico.getColumnModel().getColumn(0).setPreferredWidth(50);  // Nº OS
-        tabelaHistorico.getColumnModel().getColumn(1).setPreferredWidth(80);  // Data
-        tabelaHistorico.getColumnModel().getColumn(2).setPreferredWidth(110); // Cliente
-        tabelaHistorico.getColumnModel().getColumn(3).setPreferredWidth(170); // Equipamento/Defeito
-        tabelaHistorico.getColumnModel().getColumn(4).setPreferredWidth(110); // Peças
-        tabelaHistorico.getColumnModel().getColumn(5).setPreferredWidth(80);  // Valor Total
+        tabelaHistorico.getColumnModel().getColumn(0).setPreferredWidth(35);  // Nº OS
+        tabelaHistorico.getColumnModel().getColumn(1).setPreferredWidth(125);  // Data
+        tabelaHistorico.getColumnModel().getColumn(2).setPreferredWidth(115); // Cliente
+        tabelaHistorico.getColumnModel().getColumn(3).setPreferredWidth(175); // Equipamento/Defeito
+        tabelaHistorico.getColumnModel().getColumn(4).setPreferredWidth(115); // Peças
+        tabelaHistorico.getColumnModel().getColumn(5).setPreferredWidth(85);  // Valor Total
 
         scrollTabela = new JScrollPane(tabelaHistorico);
-        scrollTabela.setBounds(20, 75, 444, 280);
+        scrollTabela.setBounds(20, 75, 444, 462);
         add(scrollTabela);
 
         // Ação do Botão Buscar

@@ -106,7 +106,7 @@ public class Login extends JFrame {
 		JLabel lblLogin = new JLabel("LOGIN:");
 		lblLogin.setBounds(510, 190, 417, 32);
 		contentPane.add(lblLogin);
-		lblLogin.setFont(new Font("Arial", Font.PLAIN, 28));
+		lblLogin.setFont(new Font("Arial", Font.BOLD, 28));
 
 		txtLogin = new JTextField();
 		txtLogin.setFont(new Font("Arial", Font.PLAIN, 26));
@@ -138,7 +138,7 @@ public class Login extends JFrame {
 		JLabel lblSenha = new JLabel("SENHA: ");
 		lblSenha.setBounds(510, 342, 417, 32);
 		contentPane.add(lblSenha);
-		lblSenha.setFont(new Font("Arial", Font.PLAIN, 28));
+		lblSenha.setFont(new Font("Arial", Font.BOLD, 28));
 		
 		btnAcessar = new JButton("LOGAR");
 		btnAcessar.setFont(new Font("Arial", Font.BOLD, 30));
