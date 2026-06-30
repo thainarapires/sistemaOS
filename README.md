@@ -34,7 +34,7 @@
 1. Em Releases, faça o download do arquivo `SISTEMA.-.SP.Assistencia.TV.jar`
 
 2. Execute e verifique no rodapé o ícone que representa o banco de dados conectado. Se estiver com erro (conforme indicado na figura) verifique o XAMPP e revise novamente os passos 1 a 4 da instalação do banco.
-   ![desligado](https://github.com/polianacaroline/assistenciatv/assets/104094484/9da121ec-c8c7-43c1-9d1a-9d2101765403)
+<img width="1010" height="689" alt="login-inativo" src="https://github.com/user-attachments/assets/3f375d42-499b-49dc-b2c0-ddd800b44a48" />
 
 3. Se tudo estiver OK, você pode iniciar gerando uma busca pelo Usuário padrão.
    - Login: `admin`
@@ -46,11 +46,13 @@
 ### Tela Login:
 
 Essa Tela acessa a tela principal, utilizando seu usuário.
-![TelaLogin](https://github.com/polianacaroline/assistenciatv/assets/104094484/b45e448f-f457-45f9-8d00-3270b57ad535)
+<img width="1004" height="689" alt="login-ativo" src="https://github.com/user-attachments/assets/b1e00f85-ca84-4221-b8e7-379ed0da520d" />
+
 
 ### Tela Principal:
+<img width="1010" height="689" alt="main" src="https://github.com/user-attachments/assets/aa681bf0-5f61-4b98-af29-fbe8a115550c" />
 
-![principal](https://github.com/thainarapires/sistemaOS/assets/104094316/842a56a5-dd67-47ff-a15d-ebff48e9412a)
+
 
 Essa é a tela principal, dá acesso ao administrador às seguintes janelas: Usuários, Clientes, Fornecedores, Serviços, Relatórios, Produtos. O usuário com o perfil de "user" não tem acesso a algumas janelas.
 
@@ -62,7 +64,7 @@ Essa Tela para adicionar cadastro dos Fornecedores.
 ### Tela Clientes:
 
 Essa Tela para adicionar cadastro dos Clientes.
-![clientes](https://github.com/thainarapires/sistemaOS/assets/104094316/15bd6bb8-5b10-4695-a186-f219b73a17d7)
+<img width="1354" height="689" alt="tela-clientes" src="https://github.com/user-attachments/assets/b9ad6520-96db-46aa-9087-085397e25db8" />
 
 ### Tela Usuário:
 
