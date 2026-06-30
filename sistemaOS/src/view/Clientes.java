@@ -58,6 +58,7 @@ public class Clientes extends JDialog {
 	private JTextField txtTelefone;
 	private JTextField txtEmail;
 	private JTextField txtID;
+	private JPanel contentPane;
 	private PreparedStatement pst;
 	private ResultSet rs;
 	private Connection con;
@@ -77,6 +78,7 @@ public class Clientes extends JDialog {
 	@SuppressWarnings("rawtypes")
 	private JList listClient;
 	private JButton btnExcluir;
+	private PainelHistoricoCliente telaHistorico;
 
 	/**
 	 * Launch the application.
@@ -113,6 +115,12 @@ public class Clientes extends JDialog {
 
 		scrollPaneClient = new JScrollPane();
 		scrollPaneClient.setVisible(false);
+		
+		// --- INSTANCIAÇÃO DO HISTÓRICO NO LADO DIREITO ---
+				telaHistorico = new PainelHistoricoCliente();
+				// Posicionado estrategicamente a partir do X=1020 para ocupar a metade direita da janela
+				telaHistorico.setBounds(1026, 43, 484, 560); 
+				getContentPane().add(telaHistorico);
 		scrollPaneClient.setBounds(20, 102, 473, 70);
 		getContentPane().add(scrollPaneClient);
 
@@ -127,12 +135,12 @@ public class Clientes extends JDialog {
 		scrollPaneClient.setViewportView(listClient);
 
 		JPanel panel = new JPanel();
-		panel.setBounds(-14, -1, 1035, 33);
+		panel.setBounds(-14, -1, 1586, 33);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
 		JLabel lblCadastrodeClientes = new JLabel("CADASTRO DE CLIENTES");
-		lblCadastrodeClientes.setBounds(383, 0, 412, 38);
+		lblCadastrodeClientes.setBounds(652, 0, 374, 38);
 		panel.add(lblCadastrodeClientes);
 		lblCadastrodeClientes.setForeground(new Color(0, 128, 255));
 		lblCadastrodeClientes.setFont(new Font("Arial", Font.BOLD, 20));
@@ -266,7 +274,7 @@ public class Clientes extends JDialog {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(SystemColor.textHighlight);
 		panel_1.setLayout(null);
-		panel_1.setBounds(-24, 639, 1021, 42);
+		panel_1.setBounds(-14, 639, 1586, 42);
 		getContentPane().add(panel_1);
 
 		btnEditar = new JButton("EDITAR CLIENTE");
@@ -337,7 +345,7 @@ public class Clientes extends JDialog {
 		txtID.setColumns(10);
 		txtID.setBounds(20, 502, 150, 42);
 		getContentPane().add(txtID);
-		setBounds(100, 100, 1024, 700);
+		setBounds(100, 100, 1536, 700);
 		setLocationRelativeTo(null);
 
 		JLabel lblEndereco = new JLabel("Endereço:");
@@ -428,7 +436,9 @@ public class Clientes extends JDialog {
 		});
 		btnPesqCEP.setBounds(814, 146, 185, 42);
 		getContentPane().add(btnPesqCEP);
-
+				
+				setBounds(100, 100, 1536, 700);
+				setLocationRelativeTo(null);
 	}
 
 	/**

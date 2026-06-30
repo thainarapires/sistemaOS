@@ -91,7 +91,7 @@ public class Principal extends JFrame {
 			}
 		});
 
-		setTitle("SP Assistencia Eletrodomésticos");
+		setTitle("SP Assistência TV");
 		setBounds(100, 100, 1024, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
@@ -334,7 +334,7 @@ public class Principal extends JFrame {
 		contentPane.add(dashboard);
 		PainelFluxoCaixa telaCaixa = new PainelFluxoCaixa();
 		telaCaixa.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		telaCaixa.setBounds(370, 311, 626, 269); // Ajuste a posição Y para ficar abaixo do Dashboard de 2 linhas
+		telaCaixa.setBounds(370, 311, 628, 269); // Ajuste a posição Y para ficar abaixo do Dashboard de 2 linhas
 		contentPane.add(telaCaixa);
 		
 		JButton btnSobre = new JButton("");

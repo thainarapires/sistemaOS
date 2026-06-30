@@ -54,29 +54,29 @@ public class PainelFluxoCaixa extends JPanel {
         // --- COMPONENTES DE CADASTRO ---
         JLabel lblTipo = new JLabel("Tipo:");
         lblTipo.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblTipo.setBounds(20, 11, 60, 25);
+        lblTipo.setBounds(10, 11, 60, 25);
         add(lblTipo);
 
         cbTipo = new JComboBox<>(new String[]{"SAÍDA", "ENTRADA"});
-        cbTipo.setBounds(140, 11, 120, 25);
+        cbTipo.setBounds(123, 11, 120, 25);
         add(cbTipo);
 
         JLabel lblDescricao = new JLabel("Descrição:");
         lblDescricao.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblDescricao.setBounds(20, 44, 80, 25);
+        lblDescricao.setBounds(10, 44, 80, 25);
         add(lblDescricao);
 
         txtDescricao = new JTextField();
-        txtDescricao.setBounds(140, 45, 450, 25);
+        txtDescricao.setBounds(123, 44, 467, 25);
         add(txtDescricao);
 
         JLabel lblValor = new JLabel("Valor (R$):");
         lblValor.setFont(new Font("Tahoma", Font.BOLD, 11));
-        lblValor.setBounds(20, 81, 80, 25);
+        lblValor.setBounds(10, 81, 80, 25);
         add(lblValor);
 
         txtValor = new JTextField();
-        txtValor.setBounds(140, 83, 120, 25);
+        txtValor.setBounds(123, 81, 120, 25);
         add(txtValor);
 
         btnSalvar = new JButton("Registrar");
@@ -117,7 +117,7 @@ public class PainelFluxoCaixa extends JPanel {
         tabelaCaixa.getColumnModel().getColumn(4).setPreferredWidth(90);  // Valor
 
         scrollTabela = new JScrollPane(tabelaCaixa);
-        scrollTabela.setBounds(20, 126, 570, 210); 
+        scrollTabela.setBounds(40, 126, 550, 139); 
         add(scrollTabela);
 
         // Evento do Botão Salvar
@@ -180,39 +180,59 @@ public class PainelFluxoCaixa extends JPanel {
      * NOVO MÉTODO: Captura a linha selecionada na tabela e deleta do banco de dados
      */
     private void excluirDoCaixa() {
-        // Verifica se o usuário selecionou alguma linha na tabela
-        int linhaSelecionada = tabelaCaixa.getSelectedRow();
+        // Captura os índices de todas as linhas que o usuário selecionou
+        int[] linhasSelecionadas = tabelaCaixa.getSelectedRows();
         
-        if (linhaSelecionada == -1) {
-            JOptionPane.showMessageDialog(null, "Por favor, clique sobre um lançamento na tabela para selecioná-lo.");
+        // Se o array estiver vazio, ninguém foi selecionado
+        if (linhasSelecionadas.length == 0) {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione uma ou mais linhas na tabela para excluir.");
             return;
         }
 
-        // Pega o ID do registro que está na coluna 0 da linha selecionada
-        String idRegistro = modeloTabela.getValueAt(linhaSelecionada, 0).toString();
-        String descricao = modeloTabela.getValueAt(linhaSelecionada, 3).toString();
+        // Monta uma mensagem personalizada avisando a quantidade
+        String mensagemAviso = linhasSelecionadas.length == 1 
+                ? "Tem certeza que deseja apagar o lançamento selecionado?" 
+                : "Tem certeza que deseja apagar os " + linhasSelecionadas.length + " lançamentos selecionados?";
 
-        // Caixa de confirmação para evitar cliques errados
+        // Caixa de confirmação de segurança
         int resposta = JOptionPane.showConfirmDialog(null, 
-                "Tem certeza que deseja apagar o lançamento: \"" + descricao + "\"?", 
-                "Confirmar Exclusão", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                mensagemAviso, 
+                "Confirmar Exclusão em Lote", 
+                JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE);
 
         if (resposta == JOptionPane.YES_OPTION) {
+            // Usamos o operador SQL 'IN' para apagar todos os IDs de uma vez só da query
             String sql = "DELETE FROM fluxo_caixa WHERE id = ?";
 
             try {
                 con = dao.conectar();
+                // Desativa o auto-commit para fazer tudo como uma transação única e segura
+                con.setAutoCommit(false); 
                 pst = con.prepareStatement(sql);
-                pst.setInt(1, Integer.parseInt(idRegistro));
                 
-                pst.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Lançamento excluído com sucesso!");
+                // Roda um laço apagando ID por ID que foi selecionado
+                for (int i = 0; i < linhasSelecionadas.length; i++) {
+                    // Convertemos o índice visual da tabela para o modelo de dados real
+                    int linhaModelo = tabelaCaixa.convertRowIndexToModel(linhasSelecionadas[i]);
+                    String idRegistro = modeloTabela.getValueAt(linhaModelo, 0).toString();
+                    
+                    pst.setInt(1, Integer.parseInt(idRegistro));
+                    pst.addBatch(); // Adiciona no pacote de execução
+                }
                 
-                // Recarrega a tabela limpa
+                // Executa todos de uma vez só no banco
+                pst.executeBatch();
+                con.commit(); // Confirma as alterações
+                
+                JOptionPane.showMessageDialog(null, "Lançamento(s) excluído(s) com sucesso!");
+                
+                // Recarrega a tabela e limpa a seleção
                 preencherTabela();
 
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Erro ao excluir registro: " + e.getMessage());
+                try { if (con != null) con.rollback(); } catch (Exception ex) { } // Desfaz se der erro
+                JOptionPane.showMessageDialog(null, "Erro ao excluir registros: " + e.getMessage());
                 e.printStackTrace();
             } finally {
                 try {
