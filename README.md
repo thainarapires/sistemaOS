@@ -92,6 +92,7 @@ Essa Tela para adicionar cadastro do Usuário.
 ### Tela Sobre:
 
 Essa tela contém informações sobre a licença MIT e link do GitHub.
+
 ![TelaSobres](https://github.com/polianacaroline/assistenciatv/assets/104094484/62ecc091-7456-4b00-8c80-b1225d9d1fae)
 
 ### Tela Serviços:
@@ -108,7 +109,7 @@ Essa tela contém informações sobre a licença MIT e link do GitHub.
   - Materiais utilizados - Emissão de garantia em PDF.
   - Consulta de OS anteriores.
 
-![servicos](https://github.com/thainarapires/sistemaOS/assets/104094316/2a2d8d6b-40e6-4ea8-80b6-53bd7cf8bcd2)
+<img width="1007" height="689" alt="tela-servicos" src="https://github.com/user-attachments/assets/0dee4513-dc1a-4eea-8c86-4f8ef8a61bec" />
 
 ### Tela Relatórios:
 
