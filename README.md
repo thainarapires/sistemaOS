@@ -1,5 +1,19 @@
 # Sistema de Assistência TV
 
+Sistema desktop desenvolvido em Java para gerenciamento de uma assistência técnica de eletrônicos, permitindo o controle de clientes, ordens de serviço, garantias, produtos, fornecedores e fluxo de caixa.
+
+## Tecnologias
+
+- Java 17
+- Java Swing
+- WindowBuilder
+- MigLayout
+- MySQL Workbench 8.0 CE
+- JDBC
+- iTextPDF
+- MySQL Connector/J
+- JCalendar
+
 ## Instruções para instalação e uso do aplicativo
 
 ### Pré-requisitos
@@ -44,26 +58,30 @@
 ## Sistema OS
 
 ### Tela Login:
-
+- Autenticação de usuários.
+- Controle de acesso ao sistema.
 Essa Tela acessa a tela principal, utilizando seu usuário.
 <img width="1004" height="689" alt="login-ativo" src="https://github.com/user-attachments/assets/b1e00f85-ca84-4221-b8e7-379ed0da520d" />
 
 
 ### Tela Principal:
-<img width="1010" height="689" alt="main" src="https://github.com/user-attachments/assets/aa681bf0-5f61-4b98-af29-fbe8a115550c" />
-
-
-
 Essa é a tela principal, dá acesso ao administrador às seguintes janelas: Usuários, Clientes, Fornecedores, Serviços, Relatórios, Produtos. O usuário com o perfil de "user" não tem acesso a algumas janelas.
+### Fluxo de Caixa
+- Controle de entradas.
+- Controle de saídas.
+- Consulta por período.
+- Histórico de movimentações.
+<img width="1010" height="689" alt="main" src="https://github.com/user-attachments/assets/aa681bf0-5f61-4b98-af29-fbe8a115550c" />
 
 ### Tela Fornecedores:
 
-Essa Tela para adicionar cadastro dos Fornecedores.
+Essa tela para adicionar cadastro dos Fornecedores.
 ![fornecedores](https://github.com/thainarapires/sistemaOS/assets/104094316/0feb4168-7a33-4863-bd76-381f30ebc1e0)
 
 ### Tela Clientes:
-
-Essa Tela para adicionar cadastro dos Clientes.
+- Cadastro de clientes.
+- Consulta, edição e exclusão.
+- Histórico completo de atendimentos.
 <img width="1354" height="689" alt="tela-clientes" src="https://github.com/user-attachments/assets/b9ad6520-96db-46aa-9087-085397e25db8" />
 
 ### Tela Usuário:
@@ -73,20 +91,43 @@ Essa Tela para adicionar cadastro do Usuário.
 
 ### Tela Sobre:
 
-Essa Tela contém informações sobre a licença MIT e link do GitHub.
+Essa tela contém informações sobre a licença MIT e link do GitHub.
 ![TelaSobres](https://github.com/polianacaroline/assistenciatv/assets/104094484/62ecc091-7456-4b00-8c80-b1225d9d1fae)
 
 ### Tela Serviços:
+- Cadastro de OS.
+- Número da OS gerado automaticamente.
+- Controle de:
+  - Equipamento
+  - Marca
+  - Modelo
+  - Número de série
+  - Defeito
+  - Valor do serviço
+  - Valor das peças
+  - Materiais utilizados - Emissão de garantia em PDF.
+  - Consulta de OS anteriores.
 
-Essa Tela para adicionar cadastro de Ordem de Serviço.
 ![servicos](https://github.com/thainarapires/sistemaOS/assets/104094316/2a2d8d6b-40e6-4ea8-80b6-53bd7cf8bcd2)
 
 ### Tela Relatórios:
 
-Essa Tela contém Relatórios de Produtos, Clientes, Serviços e Usuários.
+Essa tela contém Relatórios de Produtos, Clientes, Serviços e Usuários.
 ![TelaRelatorios](https://github.com/polianacaroline/assistenciatv/assets/104094484/1c288aff-68a9-4019-8b5d-8db6e46cd724)
 
 ### Tela Produto:
 
-Essa Tela contém um método de inserção de imagem, para adição de um Produto e leitura de Código de Barras.
+Essa tela contém um método de inserção de imagem, para adição de um produto e leitura de código de barras.
 ![TelaProdutos](https://github.com/polianacaroline/assistenciatv/assets/104094484/83eda0d4-3758-4065-8bfc-c089a1ae5360)
+
+
+
+# Melhorias implementadas
+
+- Geração automática de PDFs.
+- Pesquisa de histórico por cliente.
+- Inclusão do custo das peças.
+- Correção da gravação dos valores da OS.
+- Correção da exibição dos dados nos PDFs.
+- Nome automático dos arquivos PDF.
+- Organização dos documentos em pasta específica.
