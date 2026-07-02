@@ -1192,23 +1192,26 @@ public class Servicos extends JDialog {
 	    os.setSpacingAfter(8);
 	    document.add(os);
 
-	    Paragraph nome = new Paragraph("Cliente: " + safe(rs.getString(12)), FONTE_NORMAL);
-	    nome.setAlignment(Element.ALIGN_LEFT);
+	    Paragraph nome = new Paragraph(
+	    "Cliente: " + safe(rs.getString("nome")),FONTE_NORMAL);
 	    document.add(nome);
 
 	    Paragraph endereco = new Paragraph(
-	            "Endereço: " + safe(rs.getString(16)) + ", " + safe(rs.getString(17)),
-	            FONTE_NORMAL
-	    );
+	            "Endereço: " +
+	            safe(rs.getString("endereco")) + ", " +
+	            safe(rs.getString("numero")),
+	            FONTE_NORMAL);
 	    endereco.setAlignment(Element.ALIGN_LEFT);
 	    document.add(endereco);
 
-	    Paragraph bairro = new Paragraph("Bairro: " + safe(rs.getString(19)), FONTE_NORMAL);
-	    bairro.setAlignment(Element.ALIGN_LEFT);
+	    Paragraph bairro = new Paragraph(
+	            "Bairro: " + safe(rs.getString("bairro")),
+	            FONTE_NORMAL);
 	    document.add(bairro);
 
-	    Paragraph complemento = new Paragraph("Complemento: " + safe(rs.getString(18)), FONTE_NORMAL);
-	    complemento.setAlignment(Element.ALIGN_LEFT);
+	    Paragraph complemento = new Paragraph(
+	            "Complemento: " + safe(rs.getString("complemento")),
+	            FONTE_NORMAL);
 	    complemento.setSpacingAfter(10);
 	    document.add(complemento);
 	}
