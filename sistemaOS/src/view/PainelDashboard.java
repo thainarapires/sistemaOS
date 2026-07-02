@@ -177,8 +177,7 @@ public class PainelDashboard extends JPanel {
             rs.close();
             pst.close();
 
-            // Despesas Fixas Estruturais da Oficina Mapeadas (R$ 8.650,00)
-            double despesasFixasMensais = 8000.00;
+            double despesasFixasMensais = 5000.00;
             
             // CÁLCULO DO LUCRO REAL LÍQUIDO PERFEITO:
             // (Faturamento OS + Entradas Avulsas) - Peças das OS - Custos Fixos - Saídas do Caixa
