@@ -1,4 +1,4 @@
-
+create database dbsistema;
 use dbsistema;
 
 create table usuarios (
@@ -10,6 +10,7 @@ perfil varchar(10) not null
  );
 
 insert into usuarios(nome, login, senha, perfil) values ('Administrador', 'admin', md5('admin'), 'Admin');
+
 insert into usuarios(nome, login, senha, perfil) values ('Usuário', 'usuario', md5('usuario'), 'User');
 
  create table clientes (
@@ -41,10 +42,9 @@ defeito varchar(200),
 valor decimal(10,2), 
 idcli int not null,
 material varchar(105),
+custo_pecas DECIMAL(10,2) DEFAULT 0.00,
 foreign key (idcli) references clientes(idcli)
 );
-
-ALTER TABLE servicos ADD COLUMN custo_pecas DECIMAL(10,2) DEFAULT 0.00;
 
 CREATE TABLE fluxo_caixa (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -53,6 +53,9 @@ CREATE TABLE fluxo_caixa (
     descricao VARCHAR(255) NOT NULL,
     valor DECIMAL(10,2) NOT NULL
 );
+
+select * from fluxo_caixa;
+
 
 create table fornecedores (
 idfornecedor int primary key auto_increment,

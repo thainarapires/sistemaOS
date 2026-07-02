@@ -901,22 +901,22 @@ public class Servicos extends JDialog {
 	 * Metodo responsavel por: imprimir a OS do cliente.
 	 */
 	private void imprimirOSCliente() {
-	    gerarOSPdf("oscliente.pdf", "Via cliente", true);
+		gerarOSPdf("", "Via cliente", true);
 	}
 
 	/**
 	 * Metodo responsavel por: imprimir a OS da empresa.
 	 */
 	private void imprimirOSEmpresa() {
-	    gerarOSPdf("osempresa.pdf", "Via empresa", false);
+		 gerarOSPdf("", "Via empresa", false);
 	}
 
 	/**
 	 * Metodo responsavel por: imprimir a garantia.
 	 */
 	private void imprimirGarantia() {
-	    JOptionPane.showMessageDialog(null, "Confira se colocou o valor, se sim, desconsidere essa mensagem!");
-	    gerarGarantiaPdf("osgarantia.pdf");
+		JOptionPane.showMessageDialog(null, "Confira se colocou o valor, se sim, desconsidere essa mensagem!");
+	    gerarGarantiaPdf(""); 
 	}
 
 	/**
@@ -932,8 +932,6 @@ public class Servicos extends JDialog {
 	    Document document = new Document(PageSize.A4, 36, 36, 36, 36);
 
 	    try {
-	        PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
-	        document.open();
 
 	        String readOS = "select * from servicos "
 	                + "inner join clientes on servicos.idcli = clientes.idcli "
@@ -945,6 +943,17 @@ public class Servicos extends JDialog {
 	        rs = pst.executeQuery();
 
 	        if (rs.next()) {
+
+	            String pasta = "C:\\Users\\Thai Linda\\Documents\\Projetos\\sistemaOS\\Documentacao\\";
+	            String os = rs.getString("os").replaceAll("[\\\\/:*?\"<>|]", "");
+	            String equipamento = rs.getString("equipamento").replaceAll("[\\\\/:*?\"<>|]", "");
+	            String marca = rs.getString("marca").replaceAll("[\\\\/:*?\"<>|]", "");
+
+	            nomeArquivo = pasta + "retirada " + equipamento + " " + marca +  " os" + os + ".pdf";
+
+	            PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
+	            document.open();
+
 	            adicionarLogo(document);
 	            adicionarCabecalhoOS(document, tipoVia, mostrarDadosEmpresa);
 	            adicionarDadosCliente(document);
@@ -958,7 +967,8 @@ public class Servicos extends JDialog {
 
 	            Paragraph assinatura = new Paragraph(
 	                    "\nAley Luciano Pires da Silva\n"
-	                    + "Ass. Responsável                                              São Paulo, " + formatarDataBanco(rs.getString(2)),
+	                    + "Ass. Responsável                                              São Paulo, "
+	                    + formatarDataBanco(rs.getString(2)),
 	                    FONTE_NORMAL
 	            );
 	            assinatura.setAlignment(Element.ALIGN_LEFT);
@@ -997,7 +1007,9 @@ public class Servicos extends JDialog {
 	        }
 
 	        try {
-	            Desktop.getDesktop().open(new File(nomeArquivo));
+	            if (nomeArquivo != null && !nomeArquivo.isEmpty()) {
+	                Desktop.getDesktop().open(new File(nomeArquivo));
+	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
@@ -1017,8 +1029,6 @@ public class Servicos extends JDialog {
 	    Document document = new Document(PageSize.A4, 36, 36, 36, 36);
 
 	    try {
-	        PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
-	        document.open();
 
 	        String readOS = "select * from servicos "
 	                + "inner join clientes on servicos.idcli = clientes.idcli "
@@ -1030,6 +1040,13 @@ public class Servicos extends JDialog {
 	        rs = pst.executeQuery();
 
 	        if (rs.next()) {
+	        	String pasta = "C:\\Users\\Thai Linda\\Documents\\Projetos\\sistemaOS\\Documentacao\\";
+
+	        	nomeArquivo = pasta + "garantia os" + rs.getString("os") + ".pdf";
+	        	document = new Document(PageSize.A4, 36, 36, 36, 36);
+	        	PdfWriter.getInstance(document, new FileOutputStream(nomeArquivo));
+	        	document.open();
+	        	
 	            adicionarLogo(document);
 	            adicionarCabecalhoGarantia(document);
 	            adicionarDadosCliente(document);

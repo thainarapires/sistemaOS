@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.DefaultTableModel;
 import model.DAO;
 
@@ -102,11 +103,27 @@ public class PainelFluxoCaixa extends JPanel {
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false;
+            	 return column == 1; 
             }
         };
 
         tabelaCaixa = new JTable(modeloTabela);
+        modeloTabela.addTableModelListener(e -> {
+
+            if (e.getType() == TableModelEvent.UPDATE) {
+
+                int linha = e.getFirstRow();
+                int coluna = e.getColumn();
+
+                if (coluna == 1) {
+
+                    String id = modeloTabela.getValueAt(linha, 0).toString();
+                    String novaData = modeloTabela.getValueAt(linha, 1).toString();
+
+                    atualizarData(id, novaData);
+                }
+            }
+        });
         tabelaCaixa.setFont(new Font("Arial", Font.PLAIN, 11));
         
         // Ajustando largura das colunas (deixando o ID bem pequenininho)
@@ -136,6 +153,35 @@ public class PainelFluxoCaixa extends JPanel {
 
         // Carrega o histórico ao iniciar
         preencherTabela();
+    }
+    
+    private void atualizarData(String id, String novaData) {
+
+        String sql = "UPDATE fluxo_caixa "
+                   + "SET data_movimentacao = STR_TO_DATE(?, '%d/%m/%Y %H:%i') "
+                   + "WHERE id = ?";
+
+        try {
+
+            con = dao.conectar();
+            pst = con.prepareStatement(sql);
+
+            pst.setString(1, novaData);
+            pst.setInt(2, Integer.parseInt(id));
+
+            pst.executeUpdate();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data inválida.");
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (pst != null) pst.close();
+                if (con != null) con.close();
+            } catch (Exception ex) {
+            }
+        }
     }
 
     private void registrarNoCaixa() {

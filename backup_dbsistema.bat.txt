@@ -1,0 +1,13 @@
+@echo off
+
+set DATA=%date:~6,4%-%date:~3,2%-%date:~0,2%
+
+if not exist "[seucaminhoPATH]\Backups" (
+    mkdir "[seucaminhoPATH]\Backups"
+)
+
+"C:\Program Files\MySQL\MySQL Server 8.0\bin\mysqldump.exe" -u root dbsistema > "[seucaminhoPATH]\Backups\backup_%DATA%.sql"
+
+echo.
+echo Backup realizado com sucesso!
+pause
