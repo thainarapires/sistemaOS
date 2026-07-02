@@ -31,6 +31,7 @@ import model.DAO;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
 public class Principal extends JFrame {
 
@@ -41,9 +42,6 @@ public class Principal extends JFrame {
 	@SuppressWarnings("unused")
 	private ResultSet rs;
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblData;
@@ -52,9 +50,11 @@ public class Principal extends JFrame {
 	public JLabel lblNivelAcesso;
 	public JLabel lblNomeUsuario;
 	public JPanel painel;
-	public JLabel lblWelcome;
 	private JButton btnSair;
 	private JPanel panelRodape;
+	
+	// Instância do Dashboard inserida no escopo global
+	private PainelDashboard dashboard;
 
 	/**
 	 * Launch the application.
@@ -82,14 +82,16 @@ public class Principal extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-
 				status();
 				setarData();
-
+				// Atualiza as métricas financeiras de faturamento/lucro dinamicamente ao focar a janela
+				if (dashboard != null) {
+					dashboard.atualizarDados();
+				}
 			}
 		});
 
-		setTitle("SP Assistencia Eletrodomésticos");
+		setTitle("SP Assistência TV");
 		setBounds(100, 100, 1024, 700);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.control);
@@ -156,10 +158,8 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Usuarios usuarios = new Usuarios();
 				usuarios.setVisible(true);
-
 			}
 		});
-		btnUsuarios.setIcon(null);
 
 		JButton btnServicos = new JButton(" Serviços");
 		btnServicos.setDoubleBuffered(true);
@@ -182,7 +182,6 @@ public class Principal extends JFrame {
 			}
 		});
 		btnServicos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnServicos.setIcon(null);
 		btnServicos.setToolTipText("Serviços");
 
 		JButton btnClientes = new JButton(" Clientes");
@@ -203,11 +202,9 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Clientes cliente = new Clientes();
 				cliente.setVisible(true);
-
 			}
 		});
 		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnClientes.setIcon(null);
 		btnClientes.setToolTipText("Clientes");
 
 		btnRelatorios = new JButton(" Relatórios");
@@ -232,7 +229,6 @@ public class Principal extends JFrame {
 			}
 		});
 		btnRelatorios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRelatorios.setIcon(null);
 		btnRelatorios.setToolTipText("Relatórios");
 
 		JButton btnProd = new JButton(" Produtos");
@@ -251,13 +247,10 @@ public class Principal extends JFrame {
 		panel.add(btnProd);
 		btnProd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				Produtos produtos = new Produtos();
 				produtos.setVisible(true);
-
 			}
 		});
-		btnProd.setIcon(null);
 		btnProd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnProd.setToolTipText(" Produtos");
 
@@ -282,43 +275,37 @@ public class Principal extends JFrame {
 			}
 		});
 		btnFornecedores.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnFornecedores.setIcon(null);
 		btnFornecedores.setToolTipText("Fornecedores");
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 24, 211, 0);
 		panel.add(panel_1);
 		
-				btnSair = new JButton("SAIR");
-				btnSair.setBounds(133, 536, 106, 31);
-				panel.add(btnSair);
-				btnSair.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-					}
-				});
-				btnSair.setToolTipText("Voltar para o Login");
-				btnSair.setFocusPainted(false);
-				btnSair.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						Login login = new Login();
-						login.setVisible(true);
-						
-						dispose();
-					}
-				});
-				btnSair.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-				btnSair.setBorderPainted(false);
-				btnSair.setHorizontalTextPosition(SwingConstants.RIGHT);
-				btnSair.setHorizontalAlignment(SwingConstants.LEFT);
-				btnSair.setForeground(Color.WHITE);
-				btnSair.setContentAreaFilled(false);
-				btnSair.setIcon(new ImageIcon(Principal.class.getResource("/img/loggout.png")));
-						
-						JLabel lblNewLabel = new JLabel("New label");
-						lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ois.png")));
-						lblNewLabel.setBounds(-104, 11, 662, 824);
-						panel.add(lblNewLabel);
+		btnSair = new JButton("SAIR");
+		btnSair.setBounds(133, 536, 106, 31);
+		panel.add(btnSair);
+		btnSair.setToolTipText("Voltar para o Login");
+		btnSair.setFocusPainted(false);
+		btnSair.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Login login = new Login();
+				login.setVisible(true);
+				dispose();
+			}
+		});
+		btnSair.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSair.setBorderPainted(false);
+		btnSair.setHorizontalTextPosition(SwingConstants.RIGHT);
+		btnSair.setHorizontalAlignment(SwingConstants.LEFT);
+		btnSair.setForeground(Color.WHITE);
+		btnSair.setContentAreaFilled(false);
+		btnSair.setIcon(new ImageIcon(Principal.class.getResource("/img/loggout.png")));
+				
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setIcon(new ImageIcon(Principal.class.getResource("/img/ois.png")));
+		lblNewLabel.setBounds(-104, 11, 662, 824);
+		panel.add(lblNewLabel);
 
 		panelRodape = new JPanel();
 		panelRodape.setForeground(SystemColor.textHighlight);
@@ -327,34 +314,28 @@ public class Principal extends JFrame {
 		contentPane.add(panelRodape);
 		panelRodape.setLayout(null);
 		
-				lblData = new JLabel("Data e Hora");
-				lblData.setHorizontalAlignment(SwingConstants.CENTER);
-				lblData.setBounds(156, 11, 647, 48);
-				panelRodape.add(lblData);
-				lblData.setForeground(Color.WHITE);
-				lblData.setToolTipText("DATA");
-				lblData.setFont(new Font("Arial", Font.BOLD, 26));
+		lblData = new JLabel("Data e Hora");
+		lblData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblData.setBounds(156, 11, 647, 48);
+		panelRodape.add(lblData);
+		lblData.setForeground(Color.WHITE);
+		lblData.setToolTipText("DATA");
+		lblData.setFont(new Font("Arial", Font.BOLD, 26));
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setBounds(362, 139, 646, 141);
+		lblLogo.setBounds(362, 11, 646, 141); // Posição Y ajustada para liberar espaço central
 		contentPane.add(lblLogo);
 		lblLogo.setIcon(new ImageIcon(Principal.class.getResource("/img/logo (1).png")));
 
-		JLabel lblNewLabel_1 = new JLabel("SEJA BEM VINDO(A)");
-		lblNewLabel_1.setForeground(SystemColor.activeCaptionText);
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 44));
-		lblNewLabel_1.setBounds(362, 285, 646, 70);
-		contentPane.add(lblNewLabel_1);
-
-		lblWelcome = new JLabel("Administrador");
-		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcome.setBackground(SystemColor.desktop);
-		lblWelcome.setForeground(SystemColor.desktop);
-		lblWelcome.setFont(new Font("Arial", Font.PLAIN, 44));
-		lblWelcome.setBounds(362, 341, 646, 66);
-		contentPane.add(lblWelcome);
+		dashboard = new PainelDashboard();
+		
+		dashboard.setBounds(362, 143, 643, 157); 
+		contentPane.add(dashboard);
+		PainelFluxoCaixa telaCaixa = new PainelFluxoCaixa();
+		telaCaixa.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		telaCaixa.setBounds(370, 311, 628, 269); // Ajuste a posição Y para ficar abaixo do Dashboard de 2 linhas
+		contentPane.add(telaCaixa);
 		
 		JButton btnSobre = new JButton("");
 		btnSobre.setBounds(960, -1, 48, 48);
@@ -372,49 +353,29 @@ public class Principal extends JFrame {
 		btnSobre.setContentAreaFilled(false);
 		btnSobre.setBorderPainted(false);
 		btnSobre.setBorder(null);
-
 	}
-
-	/**
-	 * Metodo responsavel por: exibir o status da conexao
-	 * 
-	 */
 
 	private void status() {
 		try {
-
 			con = dao.conectar();
 			if (con == null) {
-
 				lblData.setText("Você está offline");
-				
-				
-			} else {
-
 			}
-
 			con.close();
 		} catch (Exception e) {
 			System.out.println(e);
-
 		}
-
 	}
 
-	/**
-	 * Metodo responsavel por setar a data no rodape
-	 */
 	private void setarData() {
 		if (con == null) {
 			lblData.setText("SEU SERVIDOR ESTÁ OFFLINE");
 			panelRodape.setBackground(Color.RED);
-			
 		} else {
-		Date data = new Date();
-
-		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
-
-		lblData.setText(formatador.format(data).toUpperCase());
-		setLocationRelativeTo(null);
-	}}
+			Date data = new Date();
+			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+			lblData.setText(formatador.format(data).toUpperCase());
+			setLocationRelativeTo(null);
+		}
+	}
 }

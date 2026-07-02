@@ -9,6 +9,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.swing.JButton;
@@ -16,6 +19,7 @@ import javax.swing.JDialog;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
+import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -30,6 +34,8 @@ import java.awt.SystemColor;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Component;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -292,214 +298,303 @@ public class Relatorios extends JDialog {
 	 */
 	private void relatorioServicos() {
 
-		Document document = new Document();
+	    Document document = new Document(PageSize.A4.rotate(), 20, 20, 20, 20);
 
-		document.setPageSize(PageSize.A4.rotate());
+	    try {
+	        PdfWriter.getInstance(document, new FileOutputStream("servicos.pdf"));
+	        document.open();
 
-		try {
+	        com.itextpdf.text.Font fonteTitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 16);
+	        com.itextpdf.text.Font fonteSubtitulo = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);
+	        com.itextpdf.text.Font fonteNormal = FontFactory.getFont(FontFactory.HELVETICA, 10);
+	        com.itextpdf.text.Font fonteCabecalho = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
 
-			PdfWriter.getInstance(document, new FileOutputStream("servicos.pdf"));
+	        Date dataRelatorio = new Date();
+	        DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 
-			document.open();
+	        Paragraph titulo = new Paragraph("RELATÓRIO DE SERVIÇOS", fonteTitulo);
+	        titulo.setAlignment(Element.ALIGN_CENTER);
+	        titulo.setSpacingAfter(10);
+	        document.add(titulo);
 
-			Date dataRelatorio = new Date();
-			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
-			document.add(new Paragraph(formatador.format(dataRelatorio)));
+	        Paragraph data = new Paragraph("Emitido em: " + formatador.format(dataRelatorio), fonteNormal);
+	        data.setSpacingAfter(15);
+	        document.add(data);
 
-			document.add(new Paragraph("SERVIÇOS:"));
-			document.add(new Paragraph(" "));
+	        String sql = """
+	            select os, nome, dataOS, equipamento, defeito, valor
+	            from servicos
+	            inner join clientes on servicos.idcli = clientes.idcli
+	            order by dataOS, os
+	        """;
 
-			String readServicos = "select os, nome, dataOS, equipamento, defeito, valor from servicos inner join clientes on servicos.idcli = clientes.idcli order by os";
-			try {
+	        con = dao.conectar();
+	        pst = con.prepareStatement(sql);
+	        rs = pst.executeQuery();
 
-				con = dao.conectar();
+	        String mesAtual = "";
+	        double totalMes = 0.0;
+	        double totalGeral = 0.0;
+	        PdfPTable tabelaMes = null;
 
-				pst = con.prepareStatement(readServicos);
+	        DateTimeFormatter entradaFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd[ HH:mm:ss]");
+	        DateTimeFormatter dataFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-				rs = pst.executeQuery();
+	        while (rs.next()) {
+	            String dataBanco = rs.getString("dataOS");
 
-				PdfPTable tabela = new PdfPTable(6);
+	            LocalDate dataOs;
+	            try {
+	                if (dataBanco.length() > 10) {
+	                    dataOs = LocalDateTime.parse(dataBanco.replace(" ", "T")).toLocalDate();
+	                } else {
+	                    dataOs = LocalDate.parse(dataBanco);
+	                }
+	            } catch (Exception e) {
+	                // fallback caso o formato venha diferente
+	                dataOs = rs.getDate("dataOS").toLocalDate();
+	            }
 
-				PdfPCell col1 = new PdfPCell(new Paragraph("OS: "));
-				PdfPCell col2 = new PdfPCell(new Paragraph("Cliente: "));
-				PdfPCell col3 = new PdfPCell(new Paragraph("Data da OS: "));
-				PdfPCell col4 = new PdfPCell(new Paragraph("Equipamento: "));
-				PdfPCell col5 = new PdfPCell(new Paragraph("Defeito: "));
-				PdfPCell col6 = new PdfPCell(new Paragraph("Valor: "));
+	            String nomeMes = dataOs.getMonth()
+	                    .getDisplayName(java.time.format.TextStyle.FULL, new java.util.Locale("pt", "BR"));
+	            String mesAno = Character.toUpperCase(nomeMes.charAt(0)) + nomeMes.substring(1) + "/" + dataOs.getYear();
 
-				tabela.addCell(col1);
-				tabela.addCell(col2);
-				tabela.addCell(col3);
-				tabela.addCell(col4);
-				tabela.addCell(col5);
-				tabela.addCell(col6);
-				;
-				while (rs.next()) {
+	            if (!mesAno.equals(mesAtual)) {
 
-					tabela.addCell(rs.getString(1));
-					tabela.addCell(rs.getString(2));
-					tabela.addCell(rs.getString(3));
-					tabela.addCell(rs.getString(4));
-					tabela.addCell(rs.getString(5));
-					tabela.addCell(rs.getString(6));
+	                // fecha o mês anterior
+	                if (!mesAtual.isEmpty()) {
+	                    document.add(tabelaMes);
 
-				}
+	                    Paragraph totalMesParagrafo = new Paragraph(
+	                            "Total de " + mesAtual + ": R$ " + String.format("%.2f", totalMes),
+	                            fonteSubtitulo
+	                    );
+	                    totalMesParagrafo.setAlignment(Element.ALIGN_RIGHT);
+	                    totalMesParagrafo.setSpacingBefore(8);
+	                    totalMesParagrafo.setSpacingAfter(15);
+	                    document.add(totalMesParagrafo);
+	                }
 
-				document.add(tabela);
+	                // inicia novo mês
+	                mesAtual = mesAno;
+	                totalMes = 0.0;
 
-				con.close();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	                Paragraph mesTitulo = new Paragraph(mesAtual, fonteSubtitulo);
+	                mesTitulo.setSpacingBefore(10);
+	                mesTitulo.setSpacingAfter(8);
+	                document.add(mesTitulo);
 
-		document.close();
+	                tabelaMes = new PdfPTable(6);
+	                tabelaMes.setWidthPercentage(100);
+	                tabelaMes.setSpacingAfter(5);
+	                tabelaMes.setWidths(new float[]{1.2f, 2.5f, 1.6f, 2.0f, 3.2f, 1.4f});
 
-		try {
-			Desktop.getDesktop().open(new File("servicos.pdf"));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
+	                PdfPCell col1 = new PdfPCell(new Paragraph("OS", fonteCabecalho));
+	                PdfPCell col2 = new PdfPCell(new Paragraph("Cliente", fonteCabecalho));
+	                PdfPCell col3 = new PdfPCell(new Paragraph("Data da OS", fonteCabecalho));
+	                PdfPCell col4 = new PdfPCell(new Paragraph("Equipamento", fonteCabecalho));
+	                PdfPCell col5 = new PdfPCell(new Paragraph("Defeito", fonteCabecalho));
+	                PdfPCell col6 = new PdfPCell(new Paragraph("Valor", fonteCabecalho));
+
+	                col1.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                col2.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                col3.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                col4.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                col5.setHorizontalAlignment(Element.ALIGN_CENTER);
+	                col6.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+	                tabelaMes.addCell(col1);
+	                tabelaMes.addCell(col2);
+	                tabelaMes.addCell(col3);
+	                tabelaMes.addCell(col4);
+	                tabelaMes.addCell(col5);
+	                tabelaMes.addCell(col6);
+	            }
+
+	            tabelaMes.addCell(new PdfPCell(new Paragraph(rs.getString("os"), fonteNormal)));
+	            tabelaMes.addCell(new PdfPCell(new Paragraph(rs.getString("nome"), fonteNormal)));
+	            tabelaMes.addCell(new PdfPCell(new Paragraph(dataOs.format(dataFormatter), fonteNormal)));
+	            tabelaMes.addCell(new PdfPCell(new Paragraph(rs.getString("equipamento"), fonteNormal)));
+	            tabelaMes.addCell(new PdfPCell(new Paragraph(rs.getString("defeito"), fonteNormal)));
+	            tabelaMes.addCell(new PdfPCell(new Paragraph("R$ " + String.format("%.2f", rs.getDouble("valor")), fonteNormal)));
+
+	            totalMes += rs.getDouble("valor");
+	            totalGeral += rs.getDouble("valor");
+	        }
+
+	        // fecha último mês
+	        if (!mesAtual.isEmpty() && tabelaMes != null) {
+	            document.add(tabelaMes);
+
+	            Paragraph totalMesParagrafo = new Paragraph(
+	                    "Total de " + mesAtual + ": R$ " + String.format("%.2f", totalMes),
+	                    fonteSubtitulo
+	            );
+	            totalMesParagrafo.setAlignment(Element.ALIGN_RIGHT);
+	            totalMesParagrafo.setSpacingBefore(8);
+	            totalMesParagrafo.setSpacingAfter(15);
+	            document.add(totalMesParagrafo);
+	        }
+
+	        Paragraph totalGeralParagrafo = new Paragraph(
+	                "TOTAL GERAL: R$ " + String.format("%.2f", totalGeral),
+	                fonteTitulo
+	        );
+	        totalGeralParagrafo.setAlignment(Element.ALIGN_RIGHT);
+	        totalGeralParagrafo.setSpacingBefore(10);
+	        document.add(totalGeralParagrafo);
+
+	    } catch (Exception e) {
+	        System.out.println(e);
+	        JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e.getMessage());
+	    } finally {
+	        try {
+	            if (rs != null) rs.close();
+	            if (pst != null) pst.close();
+	            if (con != null) con.close();
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+
+	        if (document.isOpen()) {
+	            document.close();
+	        }
+	    }
+
+	    try {
+	        Desktop.getDesktop().open(new File("servicos.pdf"));
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 	}
 
-	/**
-	 * Metodo responsavel por: imprimir o relatorio de estoque.
-	 */
 	private void relatorioEstoque() {
 
-		Document document = new Document(PageSize.A3);
+	    Document document = new Document(PageSize.A3);
 
-		try {
+	    try {
 
-			PdfWriter.getInstance(document, new FileOutputStream("estoque.pdf"));
+	        PdfWriter.getInstance(document, new FileOutputStream("estoque.pdf"));
 
-			document.open();
+	        document.open();
 
-			Date dataRelatorio = new Date();
-			DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+	        Date dataRelatorio = new Date();
+	        DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 
-			// Adiciona a data ao documento
-			document.add(new Paragraph(formatador.format(dataRelatorio)));
+	        // Adiciona a data ao documento
+	        document.add(new Paragraph(formatador.format(dataRelatorio)));
 
-			document.add(new Paragraph("Produtos em Estoque:"));
-			document.add(new Paragraph(" "));
+	        document.add(new Paragraph("Produtos em Estoque:"));
+	        document.add(new Paragraph(" "));
 
-			String readprod = "select nome, codigo, codigobarras as modelo_da_tv, barcode, valor, estoque, estoquemin as estóque_mínimo, armazenagem as local from produtos where estoque";
+	        String readprod = "select nome, codigo, codigobarras as modelo_da_tv, barcode, valor, estoque, estoquemin as estóque_mínimo, armazenagem as local from produtos where estoque";
 
-			try {
+	        try {
 
-				con = dao.conectar();
-				pst = con.prepareStatement(readprod);
-				rs = pst.executeQuery();
+	            con = dao.conectar();
+	            pst = con.prepareStatement(readprod);
+	            rs = pst.executeQuery();
 
-				PdfPTable tabela1 = new PdfPTable(8);
-				tabela1.setWidthPercentage(100);
+	            PdfPTable tabela1 = new PdfPTable(8);
+	            tabela1.setWidthPercentage(100);
 
-				PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
-				PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
-				PdfPCell col300 = new PdfPCell(new Paragraph("modelo da tv"));
-				PdfPCell col700 = new PdfPCell(new Paragraph("código da placa: "));
-				PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
-				PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
-				PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
-				PdfPCell col430 = new PdfPCell(new Paragraph("local: "));
+	            PdfPCell col200 = new PdfPCell(new Paragraph("produto: "));
+	            PdfPCell col100 = new PdfPCell(new Paragraph("código: "));
+	            PdfPCell col300 = new PdfPCell(new Paragraph("modelo da tv"));
+	            PdfPCell col700 = new PdfPCell(new Paragraph("código da placa: "));
+	            PdfPCell col600 = new PdfPCell(new Paragraph("valor: "));
+	            PdfPCell col400 = new PdfPCell(new Paragraph("estoque: "));
+	            PdfPCell col500 = new PdfPCell(new Paragraph("estoque mínimo: "));
+	            PdfPCell col430 = new PdfPCell(new Paragraph("local: "));
 
-				tabela1.addCell(col200);
-				tabela1.addCell(col100);
-				tabela1.addCell(col300);
-				tabela1.addCell(col700);
-				tabela1.addCell(col600);
-				tabela1.addCell(col400);
-				tabela1.addCell(col500);
-				tabela1.addCell(col430);
+	            tabela1.addCell(col200);
+	            tabela1.addCell(col100);
+	            tabela1.addCell(col300);
+	            tabela1.addCell(col700);
+	            tabela1.addCell(col600);
+	            tabela1.addCell(col400);
+	            tabela1.addCell(col500);
+	            tabela1.addCell(col430);
 
+	            while (rs.next()) {
+	                tabela1.addCell(rs.getString(1));
+	                tabela1.addCell(rs.getString(2));
+	                tabela1.addCell(rs.getString(3));
+	                tabela1.addCell(rs.getString(4));
+	                tabela1.addCell(rs.getString(5));
+	                tabela1.addCell(rs.getString(6));
+	                tabela1.addCell(rs.getString(7));
+	                tabela1.addCell(rs.getString(8));
+	            }
+	            document.add(tabela1);
 
-				while (rs.next()) {
-					tabela1.addCell(rs.getString(1));
-					tabela1.addCell(rs.getString(2));
-					tabela1.addCell(rs.getString(3));
-					tabela1.addCell(rs.getString(4));
-					tabela1.addCell(rs.getString(5));
-					tabela1.addCell(rs.getString(6));
-					tabela1.addCell(rs.getString(7));
-					tabela1.addCell(rs.getString(8));
+	            document.add(new Paragraph("Falta de estoque:"));
+	            document.add(new Paragraph(" "));
+	            String readClientes = "select codigo as código, nome as produto, estoque, estoquemin as estóque_mínimo from produtos where estoque < estoquemin";
 
+	            pst = con.prepareStatement(readClientes);
 
-				}
-				document.add(tabela1);
+	            rs = pst.executeQuery();
 
-				document.add(new Paragraph("Falta de estoque:"));
-				document.add(new Paragraph(" "));
-				String readClientes = "select codigo as código, nome as produto, estoque, estoquemin as estóque_mínimo \r\n"
-						+ "from produtos where estoque < estoquemin";
+	            PdfPTable tabela = new PdfPTable(5);
 
-				pst = con.prepareStatement(readClientes);
+	            PdfPCell col1 = new PdfPCell(new Paragraph("código: "));
+	            PdfPCell col2 = new PdfPCell(new Paragraph("produto: "));
+	            PdfPCell col3 = new PdfPCell(new Paragraph("validade: "));
+	            PdfPCell col4 = new PdfPCell(new Paragraph("estoque: "));
+	            PdfPCell col5 = new PdfPCell(new Paragraph("estoque mínimo: "));
 
-				rs = pst.executeQuery();
+	            tabela.addCell(col1);
+	            tabela.addCell(col2);
+	            tabela.addCell(col3);
+	            tabela.addCell(col4);
+	            tabela.addCell(col5);
+	            while (rs.next()) {
 
-				PdfPTable tabela = new PdfPTable(5);
+	                tabela.addCell(rs.getString(1));
+	                tabela.addCell(rs.getString(2));
+	                tabela.addCell(rs.getString(3));
+	                tabela.addCell(rs.getString(4));
+	                tabela.addCell(rs.getString(5));
+	            }
 
-				PdfPCell col1 = new PdfPCell(new Paragraph("código: "));
-				PdfPCell col2 = new PdfPCell(new Paragraph("produto: "));
-				PdfPCell col3 = new PdfPCell(new Paragraph("validade: "));
-				PdfPCell col4 = new PdfPCell(new Paragraph("estoque: "));
-				PdfPCell col5 = new PdfPCell(new Paragraph("estoque mínimo: "));
+	            document.add(tabela);
 
-				tabela.addCell(col1);
-				tabela.addCell(col2);
-				tabela.addCell(col3);
-				tabela.addCell(col4);
-				tabela.addCell(col5);
-				while (rs.next()) {
+	            document.add(new Paragraph(" "));
 
-					tabela.addCell(rs.getString(1));
-					tabela.addCell(rs.getString(2));
-					tabela.addCell(rs.getString(3));
-					tabela.addCell(rs.getString(4));
-					tabela.addCell(rs.getString(5));
-				}
+	            document.add(new Paragraph("Patrimônio (Custo):"));
 
-				document.add(tabela);
+	            document.add(new Paragraph(" "));
 
-				document.add(new Paragraph(" "));
+	            String read2 = "select sum(valor * estoque) as Total from produtos";
 
-				document.add(new Paragraph("Patrimônio (Custo):"));
+	            pst = con.prepareStatement(read2);
+	            rs = pst.executeQuery();
 
-				document.add(new Paragraph(" "));
+	            PdfPTable tabela3 = new PdfPTable(1);
+	            PdfPCell col12 = new PdfPCell(new Paragraph("Patrimônio custo: "));
+	            tabela3.addCell(col12);
 
-				String read2 = "select sum(valor * estoque) as Total from produtos";
+	            while (rs.next()) {
+	                tabela3.addCell(rs.getString(1));
+	            }
 
-				pst = con.prepareStatement(read2);
-				rs = pst.executeQuery();
+	            document.add(tabela3);
 
-				PdfPTable tabela3 = new PdfPTable(1);
-				PdfPCell col12 = new PdfPCell(new Paragraph("Patrimônio custo: "));
-				tabela3.addCell(col12);
+	            con.close();
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 
-				while (rs.next()) {
-					tabela3.addCell(rs.getString(1));
-				}
+	    document.close();
 
-				document.add(tabela3);
-
-				con.close();
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-
-		document.close();
-
-		try {
-			Desktop.getDesktop().open(new File("estoque.pdf"));
-		} catch (Exception e) {
-			System.out.println(e);
-
-		}
+	    try {
+	        Desktop.getDesktop().open(new File("estoque.pdf"));
+	    } catch (Exception e) {
+	        System.out.println(e);
+	    }
 	}
-
 }

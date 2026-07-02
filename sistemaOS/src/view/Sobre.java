@@ -83,7 +83,7 @@ public class Sobre extends JDialog {
 		lblThainara.setBounds(12, 307, 428, 14);
 		getContentPane().add(lblThainara);
 		
-		JLabel lblVersao = new JLabel("VERSÃO: 1.0 BETA");
+		JLabel lblVersao = new JLabel("VERSÃO: 2.0 BETA");
 		lblVersao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVersao.setFont(new Font("Arial", Font.PLAIN, 10));
 		lblVersao.setBounds(0, 148, 428, 14);

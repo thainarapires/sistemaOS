@@ -27,7 +27,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 
 import model.DAO;
 
@@ -107,7 +106,7 @@ public class Login extends JFrame {
 		JLabel lblLogin = new JLabel("LOGIN:");
 		lblLogin.setBounds(510, 190, 417, 32);
 		contentPane.add(lblLogin);
-		lblLogin.setFont(new Font("Arial", Font.PLAIN, 28));
+		lblLogin.setFont(new Font("Arial", Font.BOLD, 28));
 
 		txtLogin = new JTextField();
 		txtLogin.setFont(new Font("Arial", Font.PLAIN, 26));
@@ -134,12 +133,13 @@ public class Login extends JFrame {
 		contentPane.add(txtSenha);
 		txtSenha.setBackground(Color.WHITE);
 		txtSenha.setBorder(new EtchedBorder(EtchedBorder.RAISED, null, null));
-
+		txtLogin.setText("admin");
+		txtSenha.setText("admin");
 		JLabel lblSenha = new JLabel("SENHA: ");
 		lblSenha.setBounds(510, 342, 417, 32);
 		contentPane.add(lblSenha);
-		lblSenha.setFont(new Font("Arial", Font.PLAIN, 28));
-
+		lblSenha.setFont(new Font("Arial", Font.BOLD, 28));
+		
 		btnAcessar = new JButton("LOGAR");
 		btnAcessar.setFont(new Font("Arial", Font.BOLD, 30));
 		btnAcessar.setFocusPainted(false);
@@ -204,7 +204,6 @@ public class Login extends JFrame {
 						principal.lblNivelAcesso.setForeground(Color.YELLOW);
 						principal.lblNivelAcesso.setFont(new Font("Arial", Font.BOLD, 20));
 						principal.lblNivelAcesso.setText(rs.getString(5).toUpperCase());
-						principal.lblWelcome.setText(rs.getString(2).toUpperCase());
 						
 
 						this.dispose();
@@ -217,13 +216,12 @@ public class Login extends JFrame {
 						principal.lblNomeUsuario.setFont(new Font("Arial", Font.BOLD, 20));
 						principal.lblNivelAcesso.setText(rs.getString(5).toUpperCase());
 						principal.lblNivelAcesso.setFont(new Font("Arial", Font.BOLD, 20));
-						principal.lblWelcome.setText(rs.getString(2).toUpperCase());
 
 						// fechar atela de login após acessar
 						this.dispose();
 					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos");
+					JOptionPane.showMessageDialog(null, "Usuário e/ou senha inválidos!");
 					txtLogin.setText(null);
 					txtSenha.setText(null);
 					txtLogin.requestFocus(true);
